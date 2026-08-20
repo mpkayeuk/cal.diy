@@ -467,7 +467,7 @@
     },
     "db-deploy": {
       "cache": false,
-      "inputs": ["./migrations/**/*.sql", "./prisma/migrations/**/*.sql"]
+      "inputs": ["./migrations/**/*.sql", "./prisma/migrations/**/*.sql", "../../scripts/supplemental-db/**/*.sql"]
     },
     "db-seed": {},
     "deploy": {

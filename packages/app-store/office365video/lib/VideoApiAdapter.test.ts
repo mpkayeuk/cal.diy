@@ -1,7 +1,5 @@
 import prismaMock from "@calcom/testing/lib/__mocks__/prismaMock";
-
-import { expect, test, vi, describe } from "vitest";
-
+import { describe, expect, test, vi } from "vitest";
 import { OAuthManager } from "../../_utils/oauth/OAuthManager";
 import { internalServerErrorResponse, successResponse } from "../../_utils/testUtils";
 import config from "../config.json";
@@ -34,7 +32,7 @@ vi.mock("../../_utils/getParsedAppKeysFromSlug", () => ({
 
 const mockRequestRaw = vi.fn();
 vi.mock("../../_utils/oauth/OAuthManager", () => ({
-  OAuthManager: vi.fn().mockImplementation(function() {
+  OAuthManager: vi.fn().mockImplementation(function () {
     return { requestRaw: mockRequestRaw };
   }),
 }));
@@ -61,7 +59,6 @@ const testCredential = {
 
 describe("createMeeting", () => {
   test("Successful `createMeeting` call", async () => {
-
     const videoApi = VideoApiAdapter(testCredential);
 
     mockRequestRaw.mockImplementation(({ url }) => {
@@ -84,21 +81,26 @@ describe("createMeeting", () => {
       description: "Test Description",
       startTime: new Date(),
       endTime: new Date(),
+      attendees: [{ email: "booker@example.com", name: "Booker" }],
     };
 
     const createdMeeting = await videoApi?.createMeeting(event);
     expect(OAuthManager).toHaveBeenCalled();
-    expect(mockRequestRaw).toHaveBeenCalledWith({
-      url: URLS.CREATE_MEETING.url,
-      options: {
-        method: "POST",
-        body: JSON.stringify({
+    const request = mockRequestRaw.mock.calls[0][0];
+    const payload = JSON.parse(request.options.body);
+    expect(request.url).toBe(URLS.CREATE_MEETING.url);
+    expect(request.options.method).toBe("POST");
+    expect(payload).toEqual(
+      JSON.parse(
+        JSON.stringify({
           startDateTime: event.startTime,
           endDateTime: event.endTime,
           subject: event.title,
-        }),
-      },
-    });
+        })
+      )
+    );
+    expect(payload).not.toHaveProperty("attendees");
+    expect(payload).not.toHaveProperty("participants");
 
     expect(createdMeeting).toEqual({
       id: 1,
@@ -109,7 +111,6 @@ describe("createMeeting", () => {
   });
 
   test(" `createMeeting` when there is no joinWebUrl and only joinUrl", async () => {
-
     const videoApi = VideoApiAdapter(testCredential);
 
     mockRequestRaw.mockImplementation(({ url }) => {

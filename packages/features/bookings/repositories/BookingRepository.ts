@@ -237,6 +237,7 @@ const selectStatementToGetBookingForCalEventBuilder = {
       currency: true,
       length: true,
       hideCalendarEventDetails: true,
+      sendOutlookCalendarInvites: true,
       hideOrganizerEmail: true,
       schedulingType: true,
       seatsPerTimeSlot: true,

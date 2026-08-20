@@ -99,6 +99,7 @@ const commons = {
   id: 0,
   hideCalendarNotes: false,
   hideCalendarEventDetails: false,
+  sendOutlookCalendarInvites: false,
   recurringEvent: null,
   destinationCalendar: null,
   team: null,

@@ -90,6 +90,6 @@
     }
   },
   "scripts": {
-    "postdeploy": "cd packages/prisma && npx prisma migrate deploy"
+    "postdeploy": "cd packages/prisma && npx ts-node --transpile-only ../../scripts/apply-supplemental-schema.ts pre-migrate && npx prisma migrate deploy && npx ts-node --transpile-only ../../scripts/apply-supplemental-schema.ts post-migrate"
   }
 }

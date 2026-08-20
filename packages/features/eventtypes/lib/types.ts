@@ -110,6 +110,7 @@ export type FormValues = {
   schedulingType: SchedulingType | null;
   hidden: boolean;
   hideCalendarNotes: boolean;
+  sendOutlookCalendarInvites: boolean;
   multiplePrivateLinks: (string | PrivateLinkWithOptions)[] | undefined;
   eventTypeColor: z.infer<typeof eventTypeColor>;
   customReplyToEmail: string | null;
@@ -359,6 +360,7 @@ export type EventTypeUpdateInput = {
   disableGuests?: boolean;
   hideCalendarNotes?: boolean;
   hideCalendarEventDetails?: boolean;
+  sendOutlookCalendarInvites?: boolean;
   minimumBookingNotice?: number;
   beforeEventBuffer?: number;
   afterEventBuffer?: number;

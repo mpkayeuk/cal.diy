@@ -30,6 +30,7 @@ class CalendarEventClass implements CalendarEvent {
   rejectionReason?: string | null;
   hideCalendarNotes?: boolean;
   hideCalendarEventDetails?: boolean;
+  sendOutlookCalendarInvites?: boolean;
   hideOrganizerEmail?: boolean;
   additionalNotes?: string | null | undefined;
   recurrence?: string;

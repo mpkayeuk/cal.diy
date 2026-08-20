@@ -195,6 +195,7 @@ export interface CalendarEvent {
   rejectionReason?: string | null;
   hideCalendarNotes?: boolean;
   hideCalendarEventDetails?: boolean;
+  sendOutlookCalendarInvites?: boolean;
   recurrence?: string;
   recurringEvent?: RecurringEvent | null;
   eventTypeId?: number | null;

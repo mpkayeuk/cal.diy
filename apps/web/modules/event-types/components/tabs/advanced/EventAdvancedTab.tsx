@@ -83,6 +83,7 @@ export type EventAdvancedTabCustomClassNames = {
   canSendCalVideoTranscriptionEmails?: SettingsToggleClassNames;
   calendarNotes?: SettingsToggleClassNames;
   eventDetailsVisibility?: SettingsToggleClassNames;
+  outlookCalendarInvites?: SettingsToggleClassNames;
   bookingRedirect?: SettingsToggleClassNames & {
     children?: string;
     redirectUrlInput?: InputClassNames;
@@ -513,6 +514,7 @@ export const EventAdvancedTab = ({
   const sendCalVideoTranscriptionEmailsProps = shouldLockDisableProps("canSendCalVideoTranscriptionEmails");
   const hideCalendarNotesLocked = shouldLockDisableProps("hideCalendarNotes");
   const hideCalendarEventDetailsLocked = shouldLockDisableProps("hideCalendarEventDetails");
+  const sendOutlookCalendarInvitesLocked = shouldLockDisableProps("sendOutlookCalendarInvites");
   const eventTypeColorLocked = shouldLockDisableProps("eventTypeColor");
   const lockTimeZoneToggleOnBookingPageLocked = shouldLockDisableProps("lockTimeZoneToggleOnBookingPage");
   const multiplePrivateLinksLocked = shouldLockDisableProps("multiplePrivateLinks");
@@ -896,6 +898,26 @@ export const EventAdvancedTab = ({
             title={t("hide_calendar_event_details")}
             {...hideCalendarEventDetailsLocked}
             description={t("description_hide_calendar_event_details")}
+            checked={value}
+            onCheckedChange={(e) => onChange(e)}
+          />
+        )}
+      />
+      <Controller
+        name="sendOutlookCalendarInvites"
+        render={({ field: { value, onChange } }) => (
+          <SettingsToggle
+            labelClassName={classNames("text-sm", customClassNames?.outlookCalendarInvites?.label)}
+            toggleSwitchAtTheEnd={true}
+            switchContainerClassName={classNames(
+              "border-subtle rounded-lg border py-6 px-4 sm:px-6",
+              customClassNames?.outlookCalendarInvites?.container
+            )}
+            descriptionClassName={customClassNames?.outlookCalendarInvites?.description}
+            data-testid="send-outlook-calendar-invites"
+            title={t("send_outlook_calendar_invites")}
+            {...sendOutlookCalendarInvitesLocked}
+            description={t("description_send_outlook_calendar_invites")}
             checked={value}
             onCheckedChange={(e) => onChange(e)}
           />

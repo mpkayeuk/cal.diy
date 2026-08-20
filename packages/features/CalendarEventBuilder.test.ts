@@ -87,6 +87,7 @@ describe("CalendarEventBuilder", () => {
         id: 123,
         hideCalendarNotes: true,
         hideCalendarEventDetails: false,
+        sendOutlookCalendarInvites: true,
       })
       .build();
 
@@ -97,6 +98,7 @@ describe("CalendarEventBuilder", () => {
       expect(event.eventTypeId).toBe(123);
       expect(event.hideCalendarNotes).toBe(true);
       expect(event.hideCalendarEventDetails).toBe(false);
+      expect(event.sendOutlookCalendarInvites).toBe(true);
     }
   });
 
@@ -741,6 +743,7 @@ describe("CalendarEventBuilder", () => {
           description: "Test event description",
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: null,
@@ -826,6 +829,7 @@ describe("CalendarEventBuilder", () => {
           description: "Video call event",
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: null,
@@ -934,6 +938,7 @@ describe("CalendarEventBuilder", () => {
           description: "Team event",
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: "COLLECTIVE",
           seatsPerTimeSlot: null,
@@ -1068,6 +1073,7 @@ describe("CalendarEventBuilder", () => {
           description: "Recurring event",
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: null,
@@ -1146,6 +1152,7 @@ describe("CalendarEventBuilder", () => {
           description: "Webinar event",
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: 10,
@@ -1235,6 +1242,7 @@ describe("CalendarEventBuilder", () => {
           description: "Custom event type",
           hideCalendarNotes: true,
           hideCalendarEventDetails: true,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: true,
           schedulingType: null,
           seatsPerTimeSlot: null,
@@ -1326,6 +1334,7 @@ describe("CalendarEventBuilder", () => {
           description: "Match event type",
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: null,
@@ -1383,6 +1392,7 @@ describe("CalendarEventBuilder", () => {
           description: "Match event type",
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: null,
@@ -1441,6 +1451,7 @@ describe("CalendarEventBuilder", () => {
           description: null,
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: null,
@@ -1579,6 +1590,7 @@ describe("CalendarEventBuilder", () => {
           description: "Complete event type description",
           hideCalendarNotes: true,
           hideCalendarEventDetails: true,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: true,
           schedulingType: "COLLECTIVE",
           seatsPerTimeSlot: 20,
@@ -1828,6 +1840,7 @@ describe("CalendarEventBuilder", () => {
           description: null,
           hideCalendarNotes: false,
           hideCalendarEventDetails: false,
+          sendOutlookCalendarInvites: false,
           hideOrganizerEmail: false,
           schedulingType: null,
           seatsPerTimeSlot: null,

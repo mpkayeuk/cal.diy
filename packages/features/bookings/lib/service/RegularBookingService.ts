@@ -1384,6 +1384,7 @@ async function handler(
       id: eventType.id,
       hideCalendarNotes: eventType.hideCalendarNotes,
       hideCalendarEventDetails: eventType.hideCalendarEventDetails,
+      sendOutlookCalendarInvites: eventType.sendOutlookCalendarInvites,
       hideOrganizerEmail: eventType.hideOrganizerEmail,
       schedulingType: eventType.schedulingType,
       seatsPerTimeSlot: eventType.seatsPerTimeSlot,

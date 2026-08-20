@@ -1,7 +1,5 @@
 import { MSTeamsLocationType } from "@calcom/app-store/constants";
-import dayjs from "@calcom/dayjs";
 import { triggerDelegationCredentialErrorWebhook } from "@calcom/features/webhooks/lib/triggerDelegationCredentialErrorWebhook";
-import { getLocation, getRichDescriptionHTML } from "@calcom/lib/CalEventParser";
 import {
   CalendarAppDelegationCredentialConfigurationError,
   CalendarAppDelegationCredentialInvalidGrantError,
@@ -25,6 +23,7 @@ import { getTokenObjectFromCredential } from "../../_utils/oauth/getTokenObjectF
 import { OAuthManager } from "../../_utils/oauth/OAuthManager";
 import { oAuthManagerHelper } from "../../_utils/oauth/oAuthManagerHelper";
 import metadata from "../_metadata";
+import { buildOffice365CalendarEvent } from "./buildOffice365CalendarEvent";
 import { getOfficeAppKeys } from "./getOfficeAppKeys";
 
 interface IRequest {
@@ -332,7 +331,7 @@ class Office365CalendarService implements Calendar {
 
       const response = await this.fetcher(`${await this.getUserEndpoint()}/calendar/events/${uid}`, {
         method: "PATCH",
-        body: JSON.stringify(this.translateEvent(event, rescheduledEvent)),
+        body: JSON.stringify(this.translateEvent(event, rescheduledEvent, true)),
       });
 
       const responseJson = await handleErrorsJson<
@@ -470,93 +469,13 @@ class Office365CalendarService implements Calendar {
     });
   }
 
-  private translateEvent = (event: CalendarServiceEvent, rescheduledEvent?: Event) => {
-    const isOnlineMeeting = event.location === MSTeamsLocationType;
-    const isRescheduledOnlineMeeting = rescheduledEvent ? rescheduledEvent.isOnlineMeeting : false;
-    const existingBody =
-      rescheduledEvent?.body?.contentType === "html" ? rescheduledEvent.body.content : undefined;
-
-    let content = "";
-    if (isOnlineMeeting) {
-      if (isRescheduledOnlineMeeting && existingBody) {
-        content = `
-        ${getRichDescriptionHTML(event)}<hr>
-        ${existingBody}`.trim();
-      } else {
-        content = getRichDescriptionHTML(event);
-      }
-    } else {
-      content = event.calendarDescription;
-    }
-
-    const office365Event: Event = {
-      subject: event.title,
-      body: {
-        contentType: isOnlineMeeting ? "html" : "text",
-        content,
-      },
-      start: {
-        dateTime: dayjs(event.startTime).tz(event.organizer.timeZone).format("YYYY-MM-DDTHH:mm:ss"),
-        timeZone: event.organizer.timeZone,
-      },
-      end: {
-        dateTime: dayjs(event.endTime).tz(event.organizer.timeZone).format("YYYY-MM-DDTHH:mm:ss"),
-        timeZone: event.organizer.timeZone,
-      },
-      hideAttendees: !event.seatsPerTimeSlot ? false : !event.seatsShowAttendees,
-      organizer: {
-        emailAddress: {
-          address: event.destinationCalendar
-            ? (event.destinationCalendar.find((cal) => cal.userId === event.organizer.id)?.externalId ??
-              event.organizer.email)
-            : event.organizer.email,
-          name: event.organizer.name,
-        },
-      },
-      attendees: [
-        ...event.attendees.map((attendee) => ({
-          emailAddress: {
-            address: attendee.email,
-            name: attendee.name,
-          },
-          type: "required" as const,
-        })),
-        ...(event.team?.members
-          ? event.team.members
-              .filter((member) => member.email !== this.credential.user?.email)
-              .map((member) => {
-                const destinationCalendar =
-                  event.destinationCalendar &&
-                  event.destinationCalendar.find(
-                    (cal) => cal.integration === this.integrationName && cal.userId === member.id
-                  );
-                return {
-                  emailAddress: {
-                    address: destinationCalendar?.externalId ?? member.email,
-                    name: member.name,
-                  },
-                  type: "required" as const,
-                };
-              })
-          : []),
-      ],
-      location: event.location ? { displayName: getLocation(event) } : undefined,
-    };
-    if (event.hideCalendarEventDetails) {
-      office365Event.sensitivity = "private";
-    }
-    if (isOnlineMeeting) {
-      office365Event.isOnlineMeeting = true;
-      office365Event.allowNewTimeProposals = true;
-      office365Event.onlineMeetingProvider = "teamsForBusiness";
-      // MSTeams sets location as 'Microsoft Teams Meeting' by default, if location is undefined.
-      // For backward compatibility, setting explicitly.
-      office365Event.location =
-        rescheduledEvent && !isRescheduledOnlineMeeting
-          ? { displayName: "Microsoft Teams Meeting" }
-          : undefined;
-    }
-    return office365Event;
+  private translateEvent = (event: CalendarServiceEvent, rescheduledEvent?: Event, isUpdate = false) => {
+    return buildOffice365CalendarEvent(event, {
+      rescheduledEvent,
+      credentialUserEmail: this.credential.user?.email,
+      includeAttendees: Boolean(event.sendOutlookCalendarInvites),
+      isUpdate,
+    });
   };
 
   private fetcher = async (endpoint: string, init?: RequestInit | undefined) => {

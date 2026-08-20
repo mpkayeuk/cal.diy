@@ -74,6 +74,7 @@ export const eventTypeSelect = {
   durationLimits: true,
   eventTypeColor: true,
   hideCalendarEventDetails: true,
+  sendOutlookCalendarInvites: true,
   rrSegmentQueryValue: true,
   assignRRMembersUsingSegment: true,
   maxLeadThreshold: true,

@@ -142,6 +142,7 @@ const BaseEventTypeUpdateInput: z.ZodType<TUpdateInputSchema> = z
     disableGuests: z.boolean().optional(),
     hideCalendarNotes: z.boolean().optional(),
     hideCalendarEventDetails: z.boolean().optional(),
+    sendOutlookCalendarInvites: z.boolean().optional(),
     minimumBookingNotice: z.number().min(0).optional(),
     beforeEventBuffer: z.number().int().optional(),
     afterEventBuffer: z.number().int().optional(),

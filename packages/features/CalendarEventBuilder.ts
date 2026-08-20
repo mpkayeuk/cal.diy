@@ -178,6 +178,7 @@ export class CalendarEventBuilder {
         description: eventType.description,
         hideCalendarNotes: eventType.hideCalendarNotes,
         hideCalendarEventDetails: eventType.hideCalendarEventDetails,
+        sendOutlookCalendarInvites: eventType.sendOutlookCalendarInvites,
         hideOrganizerEmail: eventType.hideOrganizerEmail,
         schedulingType: eventType.schedulingType,
         seatsPerTimeSlot: eventType.seatsPerTimeSlot,
@@ -309,6 +310,7 @@ export class CalendarEventBuilder {
     id: number;
     hideCalendarNotes?: boolean;
     hideCalendarEventDetails?: boolean;
+    sendOutlookCalendarInvites?: boolean;
     hideOrganizerEmail?: boolean;
     schedulingType?: SchedulingType | null;
     seatsPerTimeSlot?: number | null;
@@ -324,6 +326,7 @@ export class CalendarEventBuilder {
       eventTypeId: eventType.id,
       hideCalendarNotes: eventType.hideCalendarNotes,
       hideCalendarEventDetails: eventType.hideCalendarEventDetails,
+      sendOutlookCalendarInvites: eventType.sendOutlookCalendarInvites,
       hideOrganizerEmail: eventType.hideOrganizerEmail,
       schedulingType: eventType.schedulingType,
       seatsPerTimeSlot: eventType.seatsPerTimeSlot,

@@ -159,6 +159,7 @@ export class CalendarEventBuilder implements ICalendarEventBuilder {
           destinationCalendar: true,
           hideCalendarNotes: true,
           hideCalendarEventDetails: true,
+          sendOutlookCalendarInvites: true,
           disableCancelling: true,
           disableRescheduling: true,
         },
@@ -232,6 +233,12 @@ export class CalendarEventBuilder implements ICalendarEventBuilder {
     hideCalendarEventDetails: CalendarEventClass["hideCalendarEventDetails"]
   ) {
     this.calendarEvent.hideCalendarEventDetails = hideCalendarEventDetails;
+  }
+
+  public setSendOutlookCalendarInvites(
+    sendOutlookCalendarInvites: CalendarEventClass["sendOutlookCalendarInvites"]
+  ) {
+    this.calendarEvent.sendOutlookCalendarInvites = sendOutlookCalendarInvites;
   }
 
   public setDescription(description: CalendarEventClass["description"]) {

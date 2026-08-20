@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules",
     "build": "ts-node --transpile-only ./auto-migrations.ts",
-    "db-deploy": "yarn prisma migrate deploy",
+    "db-deploy": "ts-node --transpile-only ../../scripts/apply-supplemental-schema.ts pre-migrate && yarn prisma migrate deploy && ts-node --transpile-only ../../scripts/apply-supplemental-schema.ts post-migrate",
     "db-migrate": "yarn prisma migrate dev",
     "db-nuke": "docker compose down --volumes --remove-orphans || docker-compose down --volumes --remove-orphans",
     "db-reset": "run-s db-nuke db-setup",
