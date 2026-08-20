@@ -24,7 +24,6 @@ export const CallToAction = (props: {
               borderRadius: 8,
               boxShadow: `3px 3px 0 ${EMAIL_INK}`,
             }}>
-            {/* @ts-expect-error shared props between href and button */}
             <El
               style={{
                 display: "inline-block",
