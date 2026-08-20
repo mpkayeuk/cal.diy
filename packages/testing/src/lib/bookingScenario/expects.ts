@@ -772,7 +772,6 @@ export function expectSuccessfulBookingRescheduledEmails({
   organizer,
   booker,
   iCalUID,
-  appsStatus,
 }: {
   emails: Fixtures["emails"];
   organizer: { email: string; name: string };
@@ -789,7 +788,6 @@ export function expectSuccessfulBookingRescheduledEmails({
         iCalUID,
         method: "REQUEST",
       },
-      appsStatus,
     },
     `${organizer.email}`
   );

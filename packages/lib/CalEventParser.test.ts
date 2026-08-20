@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import type { CalendarEvent } from "@calcom/types/Calendar";
 
-import { getRichDescription, getUserFieldsResponses } from "./CalEventParser";
+import { getRichDescription, getRichDescriptionHTML, getUserFieldsResponses } from "./CalEventParser";
 
 describe("getRichDescription", () => {
   const t = ((key: string, _args?: Record<string, unknown>) => key) as TFunction;
@@ -112,5 +112,53 @@ describe("getUserFieldsResponses", () => {
     expect(result).not.toContain("Phone Number");
     expect(result).toContain("Name");
     expect(result).toContain("Bob");
+  });
+});
+
+describe("getRichDescriptionHTML", () => {
+  const t = ((key: string, _args?: Record<string, unknown>) => key) as TFunction;
+
+  const mockCalEvent: CalendarEvent = {
+    type: "test",
+    title: "Test Event",
+    description: "Test description",
+    startTime: "2023-01-01T10:00:00Z",
+    endTime: "2023-01-01T11:00:00Z",
+    organizer: {
+      email: "test@example.com",
+      name: "Test Organizer",
+      timeZone: "America/New_York",
+      language: { translate: t, locale: "en" },
+    },
+    attendees: [
+      {
+        email: "attendee@example.com",
+        name: "Test Attendee",
+        timeZone: "America/New_York",
+        language: { translate: t, locale: "en" },
+      },
+    ],
+    location: "https://zoom.us/j/123456brahhh",
+    userFieldsResponses: {
+      name: { label: "Name", value: "Alice" },
+      teamSize: { label: "Team Size", value: "11-50" },
+      problem: {
+        label: "What business problem would you like to solve?",
+        value: "Scale operations",
+      },
+    },
+  };
+
+  it("bolds every booking-question heading in Teams/Outlook HTML notes", () => {
+    const html = getRichDescriptionHTML(mockCalEvent, t);
+
+    expect(html).toContain("<p><strong>Name:</strong></p>");
+    expect(html).toContain("<p><strong>Team Size:</strong></p>");
+    expect(html).toContain(
+      "<p><strong>What business problem would you like to solve?:</strong></p>"
+    );
+    expect(html).toContain("<p>Alice</p>");
+    expect(html).toContain("<p>11-50</p>");
+    expect(html).toContain("<p>Scale operations</p>");
   });
 });

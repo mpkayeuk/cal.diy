@@ -70,6 +70,24 @@ const EmailHead = ({ title = "" }) => {
       </style>
       <style type="text/css">
         {`
+          table.email-details {
+            width: 100% !important;
+            max-width: 100% !important;
+            table-layout: fixed !important;
+          }
+
+          td.email-details-label {
+            width: 140px !important;
+            max-width: 140px !important;
+          }
+
+          td.email-details-value,
+          td.email-details-value a {
+            word-break: break-word !important;
+            overflow-wrap: anywhere !important;
+            word-wrap: break-word !important;
+          }
+
           @media only screen and (max-width: 480px) {
             table.mj-full-width-mobile {
               width: 100% !important;

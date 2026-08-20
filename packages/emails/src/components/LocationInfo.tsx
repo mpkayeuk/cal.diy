@@ -1,18 +1,23 @@
-import type { TFunction } from "i18next";
-
 import { guessEventLocationType } from "@calcom/app-store/locations";
 import { getVideoCallUrlFromCalEvent } from "@calcom/lib/CalEventParser";
 import type { CalendarEvent } from "@calcom/types/Calendar";
-
+import type { TFunction } from "i18next";
 import { EMAIL_INK, EMAIL_MUTED } from "../lib/emailBrand";
+import { isMicrosoftTeamsMeeting } from "../lib/isMicrosoftTeamsMeeting";
 import { Info } from "./Info";
 
-export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
+const LINK_STYLES = {
+  color: EMAIL_INK,
+  textDecoration: "underline",
+  fontWeight: 800,
+  wordBreak: "break-word",
+  overflowWrap: "anywhere",
+  wordWrap: "break-word",
+} as const;
+
+export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }): JSX.Element | null {
   const { t } = props;
-
-  // We would not be able to determine provider name for DefaultEventLocationTypes
   const providerName = guessEventLocationType(props.calEvent.location)?.label;
-
   const location = props.calEvent.location;
   let meetingUrl = location?.search(/^https?:/) !== -1 ? location : undefined;
 
@@ -21,12 +26,15 @@ export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
   }
 
   const isPhone = location?.startsWith("+");
-
-  // Because of location being a value here, we can determine the app that generated the location only for Dynamic Link based apps where the value is integrations:*
-  // For static link based location apps, the value is that URL itself. So, it is not straightforward to determine the app that generated the location.
-  // If we know the App we can always provide the name of the app like we do it for Google Hangout/Google Meet
+  const isTeams = isMicrosoftTeamsMeeting({
+    location,
+    meetingUrl,
+    videoCallType: props.calEvent.videoCallData?.type,
+  });
 
   if (meetingUrl) {
+    const linkLabel = isTeams ? t("join_microsoft_teams_meeting") : providerName || meetingUrl;
+
     return (
       <Info
         label={t("where")}
@@ -35,23 +43,11 @@ export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
           <a
             href={meetingUrl}
             target="_blank"
-            title={t("meeting_url")}
-            style={{ color: EMAIL_INK, textDecoration: "underline", fontWeight: 800 }}
+            title={isTeams ? t("join_microsoft_teams_meeting") : t("meeting_url")}
+            style={LINK_STYLES}
             rel="noreferrer">
-            {providerName || "Link"}
+            {linkLabel}
           </a>
-        }
-        extraInfo={
-          meetingUrl && (
-            <div style={{ color: EMAIL_MUTED, fontWeight: 400, lineHeight: "24px" }}>
-              <>
-                {t("meeting_url")}:{" "}
-                <a href={meetingUrl} title={t("meeting_url")} style={{ color: EMAIL_INK, textDecoration: "underline" }}>
-                  {meetingUrl}
-                </a>
-              </>
-            </div>
-          )
         }
       />
     );
@@ -63,7 +59,7 @@ export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
         label={t("where")}
         withSpacer
         description={
-          <a href={`tel:${location}`} title="Phone" style={{ color: EMAIL_INK, textDecoration: "underline", fontWeight: 800 }}>
+          <a href={`tel:${location}`} title="Phone" style={LINK_STYLES}>
             {location}
           </a>
         }
@@ -78,9 +74,9 @@ export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
       description={providerName || location}
       extraInfo={
         (providerName === "Zoom" || providerName === "Google") && props.calEvent.requiresConfirmation ? (
-          <p style={{ color: EMAIL_MUTED, fontWeight: 400, lineHeight: "24px" }}>
-            <>{t("meeting_url_provided_after_confirmed")}</>
-          </p>
+          <span style={{ color: EMAIL_MUTED, fontWeight: 400, lineHeight: "24px" }}>
+            {t("meeting_url_provided_after_confirmed")}
+          </span>
         ) : null
       }
     />

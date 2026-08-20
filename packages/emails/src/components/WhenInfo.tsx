@@ -1,14 +1,11 @@
+import dayjs from "@calcom/dayjs";
 import type { TFunction } from "i18next";
 import { RRule } from "rrule";
-
-import dayjs from "@calcom/dayjs";
 // TODO: Use browser locale, implement Intl in Dayjs maybe?
 import "@calcom/dayjs/locales";
 import { getEveryFreqFor } from "@calcom/lib/recurringStrings";
 import type { TimeFormat } from "@calcom/lib/timeFormat";
-import type { CalendarEvent, Person } from "@calcom/types/Calendar";
-import type { RecurringEvent } from "@calcom/types/Calendar";
-
+import type { CalendarEvent, Person, RecurringEvent } from "@calcom/types/Calendar";
 import { EMAIL_MUTED } from "../lib/emailBrand";
 import { Info } from "./Info";
 
@@ -55,21 +52,19 @@ export function WhenInfo(props: {
   });
 
   return (
-    <div>
-      <Info
-        label={`${t("when")} ${recurringInfo !== "" ? ` - ${recurringInfo}` : ""}`}
-        lineThrough={
-          !!props.calEvent.cancellationReason && !props.calEvent.cancellationReason.includes("$RCH$")
-        }
-        description={
-          <span data-testid="when">
-            {recurringEvent?.count ? `${t("starting")} ` : ""}
-            {getRecipientStart(`dddd, LL | ${timeFormat}`)} - {getRecipientEnd(timeFormat)}{" "}
-            <span style={{ color: EMAIL_MUTED }}>({timeZone})</span>
-          </span>
-        }
-        withSpacer
-      />
-    </div>
+    <Info
+      label={`${t("when")} ${recurringInfo !== "" ? ` - ${recurringInfo}` : ""}`}
+      lineThrough={
+        !!props.calEvent.cancellationReason && !props.calEvent.cancellationReason.includes("$RCH$")
+      }
+      description={
+        <span data-testid="when">
+          {recurringEvent?.count ? `${t("starting")} ` : ""}
+          {getRecipientStart(`dddd, LL | ${timeFormat}`)} - {getRecipientEnd(timeFormat)}{" "}
+          <span style={{ color: EMAIL_MUTED }}>({timeZone})</span>
+        </span>
+      }
+      withSpacer
+    />
   );
 }

@@ -1,29 +1,55 @@
-import type { TFunction } from "i18next";
-
 import isSmsCalEmail from "@calcom/lib/isSmsCalEmail";
 import type { CalendarEvent } from "@calcom/types/Calendar";
-
+import type { TFunction } from "i18next";
 import { EMAIL_FONT, EMAIL_INK } from "../lib/emailBrand";
 import { Info } from "./Info";
 
 export const PersonInfo = ({ name = "", email = "", role = "", phoneNumber = "" }) => {
   const displayEmail = !isSmsCalEmail(email);
-  const formattedPhoneNumber = !!phoneNumber ? `${phoneNumber} ` : "";
+  const formattedPhoneNumber = phoneNumber ? `${phoneNumber} ` : "";
 
   return (
-    <div style={{ color: EMAIL_INK, fontWeight: 700, lineHeight: "24px", fontFamily: EMAIL_FONT }}>
-      {name} - {role} {formattedPhoneNumber}
-      {displayEmail ? (
-        <>
-          {" "}
-          <a
-            href={`mailto:${email}`}
-            style={{ color: EMAIL_INK, textDecoration: "underline", fontWeight: 700 }}>
-            {email}
-          </a>
-        </>
-      ) : null}
-    </div>
+    <table
+      role="presentation"
+      width="100%"
+      cellPadding={0}
+      cellSpacing={0}
+      border={0}
+      style={{ width: "100%" }}>
+      <tbody>
+        <tr>
+          <td
+            style={{
+              color: EMAIL_INK,
+              fontWeight: 700,
+              lineHeight: "24px",
+              fontFamily: EMAIL_FONT,
+              paddingBottom: 4,
+              wordBreak: "break-word",
+              overflowWrap: "anywhere",
+              wordWrap: "break-word",
+            }}>
+            {name} - {role} {formattedPhoneNumber}
+            {displayEmail ? (
+              <>
+                {" "}
+                <a
+                  href={`mailto:${email}`}
+                  style={{
+                    color: EMAIL_INK,
+                    textDecoration: "underline",
+                    fontWeight: 700,
+                    wordBreak: "break-all",
+                    overflowWrap: "anywhere",
+                  }}>
+                  {email}
+                </a>
+              </>
+            ) : null}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 

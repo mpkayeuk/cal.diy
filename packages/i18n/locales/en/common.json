@@ -446,6 +446,7 @@
   "what": "What",
   "when": "When",
   "where": "Where",
+  "join_microsoft_teams_meeting": "Join Microsoft Teams meeting",
   "add_to_calendar": "Add to calendar",
   "add_to_calendar_description": "Select where to add events when you're booked.",
   "add_events_to": "Add events to",

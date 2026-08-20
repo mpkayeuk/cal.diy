@@ -473,13 +473,15 @@ export const getRichDescriptionHTML = (
 ) => {
   const t = t_ ?? calEvent.organizer.language.translate;
 
-  // Helper function to convert plain text with newlines to HTML paragraphs
+  // Convert plain text with newlines to HTML paragraphs.
+  // Headings in calendar notes are written as "Label:" on their own line; bold every
+  // heading, not only the first line of the whole block (custom booking questions).
   const textToHtml = (text: string) => {
     if (!text) return "";
     const lines = text.split("\n").filter(Boolean);
     return lines
-      .map((line, index) => {
-        if (index === 0) {
+      .map((line) => {
+        if (line.trim().endsWith(":")) {
           return `<p><strong>${line}</strong></p>`;
         }
         return `<p>${line}</p>`;
