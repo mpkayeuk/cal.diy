@@ -74,6 +74,7 @@ type ExpectedEmail = {
     recurrence?: Recurrence;
     method: string;
   };
+  recurrence?: Recurrence;
   /**
    * Checks that there is no
    */
@@ -238,7 +239,11 @@ expect.extend({
         titleTag: expectedEmail.titleTag,
         heading: expectedEmail.heading,
         subHeading: expectedEmail.subHeading,
-        when: when ? (expectedEmail.ics?.recurrence ? `starting ${when}` : `${when}`) : undefined,
+        when: when
+          ? expectedEmail.ics?.recurrence || expectedEmail.recurrence
+            ? `starting ${when}`
+            : `${when}`
+          : undefined,
         links: expect.arrayContaining(expectedEmail.links || []),
       };
       // Remove undefined props so that they aren't matched, they are intentionally left undefined because we don't want to match them
@@ -457,12 +462,10 @@ export function expectSuccessfulBookingCreationEmails({
   booker,
   guests,
   otherTeamMembers,
-  iCalUID,
   recurrence,
   bookingTimeRange,
   booking,
   destinationEmail,
-  calendarType,
 }: {
   emails: Fixtures["emails"];
   organizer: { email: string; name: string; timeZone: string };
@@ -511,16 +514,8 @@ export function expectSuccessfulBookingCreationEmails({
           }
         : null),
       to: `${destinationEmail ?? organizer.email}`,
-      ...(calendarType !== "office365_calendar"
-        ? {
-            ics: {
-              filename: "event.ics",
-              iCalUID: `${iCalUID}`,
-              recurrence,
-              method: "REQUEST",
-            },
-          }
-        : {}),
+      noIcs: true,
+      recurrence,
     },
     `${destinationEmail ?? organizer.email}`
   );
@@ -540,12 +535,8 @@ export function expectSuccessfulBookingCreationEmails({
           }
         : null),
       to: `${booker.name} <${booker.email}>`,
-      ics: {
-        filename: "event.ics",
-        iCalUID: `${iCalUID}`,
-        recurrence,
-        method: "REQUEST",
-      },
+      noIcs: true,
+      recurrence,
       links: recurrence
         ? [
             {
@@ -584,11 +575,7 @@ export function expectSuccessfulBookingCreationEmails({
             : null),
           // Don't know why but organizer and team members of the eventType don'thave their name here like Booker
           to: `${otherTeamMember.email}`,
-          ics: {
-            filename: "event.ics",
-            iCalUID: `${iCalUID}`,
-            method: "REQUEST",
-          },
+          noIcs: true,
           links: [
             {
               href: `${bookingUrlOrigin}/reschedule/${booking.uid}?rescheduledBy=${encodeURIComponent(
@@ -627,11 +614,7 @@ export function expectSuccessfulBookingCreationEmails({
               }
             : null),
           to: `${guest.email}`,
-          ics: {
-            filename: "event.ics",
-            iCalUID: `${iCalUID}`,
-            method: "REQUEST",
-          },
+          noIcs: true,
         },
         `${guest.name} <${guest.email}`
       );
@@ -673,7 +656,6 @@ export function expectCalendarEventCreationFailureEmails({
   emails,
   organizer,
   booker,
-  iCalUID,
 }: {
   emails: Fixtures["emails"];
   organizer: { email: string; name: string };
@@ -684,11 +666,7 @@ export function expectCalendarEventCreationFailureEmails({
     {
       titleTag: "broken_integration",
       to: `${organizer.email}`,
-      ics: {
-        filename: "event.ics",
-        iCalUID,
-        method: "REQUEST",
-      },
+      noIcs: true,
     },
     `${organizer.email}`
   );
@@ -697,11 +675,7 @@ export function expectCalendarEventCreationFailureEmails({
     {
       titleTag: "calendar_event_creation_failure_subject",
       to: `${booker.name} <${booker.email}>`,
-      ics: {
-        filename: "event.ics",
-        iCalUID,
-        method: "REQUEST",
-      },
+      noIcs: true,
     },
     `${booker.name} <${booker.email}>`
   );
@@ -771,7 +745,6 @@ export function expectSuccessfulBookingRescheduledEmails({
   emails,
   organizer,
   booker,
-  iCalUID,
 }: {
   emails: Fixtures["emails"];
   organizer: { email: string; name: string };
@@ -783,11 +756,7 @@ export function expectSuccessfulBookingRescheduledEmails({
     {
       titleTag: "event_type_has_been_rescheduled_on_time_date",
       to: `${organizer.email}`,
-      ics: {
-        filename: "event.ics",
-        iCalUID,
-        method: "REQUEST",
-      },
+      noIcs: true,
     },
     `${organizer.email}`
   );
@@ -796,11 +765,7 @@ export function expectSuccessfulBookingRescheduledEmails({
     {
       titleTag: "event_type_has_been_rescheduled_on_time_date",
       to: `${booker.name} <${booker.email}>`,
-      ics: {
-        filename: "event.ics",
-        iCalUID,
-        method: "REQUEST",
-      },
+      noIcs: true,
     },
     `${booker.name} <${booker.email}>`
   );
@@ -914,10 +879,7 @@ export function expectBookingRequestRescheduledEmails({
         },
       ],
       to: `${booker.email}`,
-      ics: {
-        filename: "event.ics",
-        method: "REQUEST",
-      },
+      noIcs: true,
     },
     `${booker.email}`
   );
@@ -928,10 +890,7 @@ export function expectBookingRequestRescheduledEmails({
       heading: "request_reschedule_title_organizer",
       subHeading: "request_reschedule_subtitle_organizer",
       to: `${loggedInUser.email}`,
-      ics: {
-        filename: "event.ics",
-        method: "REQUEST",
-      },
+      noIcs: true,
     },
     `${loggedInUser.email}`
   );

@@ -25,6 +25,7 @@ export const BaseScheduledEmail = (
     timeFormat: TimeFormat | undefined;
     isOrganizer?: boolean;
     reassigned?: { name: string | null; email: string; reason?: string; byUser?: string };
+    showAddToCalendar?: boolean;
   } & Partial<React.ComponentProps<typeof BaseEmailHtml>>
 ) => {
   const { t, timeZone, locale, timeFormat: timeFormat_ } = props;
@@ -125,6 +126,7 @@ export const BaseScheduledEmail = (
           t={t}
           timeZone={timeZone}
           locale={locale}
+          showAddToCalendar={props.showAddToCalendar}
         />
         <WhoInfo calEvent={props.calEvent} t={t} />
         <LocationInfo calEvent={props.calEvent} t={t} />

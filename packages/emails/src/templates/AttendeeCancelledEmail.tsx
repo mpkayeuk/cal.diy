@@ -7,5 +7,6 @@ export const AttendeeCancelledEmail = (props: React.ComponentProps<typeof Attend
     subject="event_cancelled_subject"
     callToAction={null}
     {...props}
+    showAddToCalendar={false}
   />
 );

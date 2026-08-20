@@ -1,18 +1,17 @@
+import type { Dayjs } from "@calcom/dayjs";
+import dayjs from "@calcom/dayjs";
+import type { nameObjectSchema } from "@calcom/features/eventtypes/lib/eventNaming";
+import { getEventName } from "@calcom/features/eventtypes/lib/eventNaming";
+import type { Prisma } from "@calcom/prisma/client";
+import { bookingMetadataSchema } from "@calcom/prisma/zod-utils";
+import type { RecurringEvent } from "@calcom/types/Calendar";
 import type { TFunction } from "i18next";
 import { createEvent } from "ics";
 import { RRule } from "rrule";
 import type { z } from "zod";
 
-import type { Dayjs } from "@calcom/dayjs";
-import dayjs from "@calcom/dayjs";
-import type { Prisma } from "@calcom/prisma/client";
-import type { nameObjectSchema } from "@calcom/features/eventtypes/lib/eventNaming";
-import { getEventName } from "@calcom/features/eventtypes/lib/eventNaming";
-import { bookingMetadataSchema } from "@calcom/prisma/zod-utils";
-import type { RecurringEvent } from "@calcom/types/Calendar";
-
 type RecurringEventOrPrismaJsonObject = RecurringEvent | Prisma.JsonObject | null | undefined;
-export const enum CalendarLinkType {
+export enum CalendarLinkType {
   GOOGLE_CALENDAR = "googleCalendar",
   MICROSOFT_OFFICE = "microsoftOffice",
   MICROSOFT_OUTLOOK = "microsoftOutlook",
@@ -135,6 +134,92 @@ const buildMicrosoftOutlookLink = ({
   return microsoftOutlookLink;
 };
 
+export type CalendarLinkItem = {
+  label: string;
+  id: CalendarLinkType;
+  link: string;
+};
+
+export const getCalendarLinkList = ({
+  startTime,
+  endTime,
+  eventName,
+  eventDescription,
+  bookingLocation,
+  recurringEvent,
+  includeIcs = true,
+}: {
+  startTime: Dayjs;
+  endTime: Dayjs;
+  eventName: string;
+  eventDescription: string | null;
+  bookingLocation: string | null;
+  recurringEvent: RecurringEventOrPrismaJsonObject;
+  includeIcs?: boolean;
+}): CalendarLinkItem[] => {
+  const links: CalendarLinkItem[] = [
+    {
+      label: "Google Calendar",
+      id: CalendarLinkType.GOOGLE_CALENDAR,
+      link: buildGoogleCalendarLink({
+        startTime,
+        endTime,
+        eventName,
+        eventDescription,
+        bookingLocation,
+        recurringEvent,
+      }),
+    },
+    {
+      label: "Microsoft Outlook",
+      id: CalendarLinkType.MICROSOFT_OUTLOOK,
+      link: buildMicrosoftOutlookLink({
+        startTime,
+        endTime,
+        eventName,
+        eventDescription,
+        bookingLocation,
+      }),
+    },
+    {
+      label: "Microsoft Office",
+      id: CalendarLinkType.MICROSOFT_OFFICE,
+      link: buildMicrosoftOfficeLink({
+        startTime,
+        endTime,
+        eventName,
+        eventDescription,
+        bookingLocation,
+      }),
+    },
+  ];
+
+  if (!includeIcs) {
+    return links;
+  }
+
+  let icsFileLink = "";
+  try {
+    icsFileLink = buildICalLink({
+      startTime,
+      endTime,
+      title: eventName,
+      description: eventDescription,
+      location: bookingLocation,
+    });
+  } catch (error) {
+    console.error("Error generating ICS file", error);
+  }
+
+  links.push({
+    label: "ICS",
+    id: CalendarLinkType.ICS,
+    link: icsFileLink,
+  });
+
+  return links;
+};
+
 export const getCalendarLinks = ({
   booking,
   eventType,
@@ -190,7 +275,7 @@ export const getCalendarLinks = ({
   const endTime = dayjs(booking.endTime);
   const recurringEvent = eventType.recurringEvent;
 
-  const googleCalendarLink = buildGoogleCalendarLink({
+  return getCalendarLinkList({
     startTime,
     endTime,
     eventName,
@@ -198,57 +283,4 @@ export const getCalendarLinks = ({
     bookingLocation: videoCallUrl ?? null,
     recurringEvent,
   });
-
-  const microsoftOfficeLink = buildMicrosoftOfficeLink({
-    startTime,
-    endTime,
-    eventName,
-    eventDescription,
-    bookingLocation: videoCallUrl,
-  });
-
-  const microsoftOutlookLink = buildMicrosoftOutlookLink({
-    startTime,
-    endTime,
-    eventName,
-    eventDescription,
-    bookingLocation: videoCallUrl,
-  });
-
-  // Generate ICS file link
-  let icsFileLink = "";
-  try {
-    icsFileLink = buildICalLink({
-      startTime,
-      endTime,
-      title: eventName,
-      description: eventDescription ?? null,
-      location: videoCallUrl ?? null,
-    });
-  } catch (error) {
-    console.error("Error generating ICS file", error);
-  }
-
-  return [
-    {
-      label: "Google Calendar",
-      id: CalendarLinkType.GOOGLE_CALENDAR,
-      link: googleCalendarLink,
-    },
-    {
-      label: "Microsoft Office",
-      id: CalendarLinkType.MICROSOFT_OFFICE,
-      link: microsoftOfficeLink,
-    },
-    {
-      label: "Microsoft Outlook",
-      id: CalendarLinkType.MICROSOFT_OUTLOOK,
-      link: microsoftOutlookLink,
-    },
-    {
-      label: "ICS",
-      id: CalendarLinkType.ICS,
-      link: icsFileLink,
-    },
-  ];
 };

@@ -4,7 +4,6 @@ import { TimeFormat } from "@calcom/lib/timeFormat";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
 import type { TFunction } from "i18next";
 import { default as cloneDeep } from "lodash/cloneDeep";
-import generateIcsFile, { GenerateIcsRole } from "../lib/generateIcsFile";
 import renderEmail from "../src/renderEmail";
 import BaseEmail from "./_base-email";
 
@@ -40,11 +39,6 @@ export default class AttendeeScheduledEmail extends BaseEmail {
     const clonedCalEvent = cloneDeep(this.calEvent);
 
     return {
-      icalEvent: generateIcsFile({
-        calEvent: this.calEvent,
-        role: GenerateIcsRole.ATTENDEE,
-        status: "CONFIRMED",
-      }),
       to: `${this.attendee.name} <${this.attendee.email}>`,
       from: `${this.calEvent.organizer.name} <${this.getMailerOptions().from}>`,
       ...getReplyToHeader(

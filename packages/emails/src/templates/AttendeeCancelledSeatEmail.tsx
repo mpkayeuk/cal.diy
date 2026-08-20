@@ -8,5 +8,6 @@ export const AttendeeCancelledSeatEmail = (props: React.ComponentProps<typeof At
     subtitle=""
     callToAction={null}
     {...props}
+    showAddToCalendar={false}
   />
 );

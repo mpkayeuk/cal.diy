@@ -1,8 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-
 import type { EventTypeMetadata } from "@calcom/prisma/zod-utils";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
-
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { shouldSkipAttendeeEmailWithSettings } from "./email-manager";
 import AttendeeScheduledEmail from "./templates/attendee-scheduled-email";
 
@@ -11,13 +9,6 @@ vi.mock("@calcom/prisma", () => ({
 }));
 
 // Mock dependencies for AttendeeScheduledEmail tests
-vi.mock("./lib/generateIcsFile", () => ({
-  default: vi.fn(() => "mock-ical-content"),
-  GenerateIcsRole: {
-    ATTENDEE: "ATTENDEE",
-  },
-}));
-
 vi.mock("./src/renderEmail", () => ({
   default: vi.fn(() => Promise.resolve("<html>mock-email</html>")),
 }));

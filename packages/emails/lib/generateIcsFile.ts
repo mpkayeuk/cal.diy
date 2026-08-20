@@ -10,6 +10,7 @@ export enum GenerateIcsRole {
   ORGANIZER = "organizer",
 }
 
+/** Booking emails no longer attach ICS; they use add-to-calendar links in When instead. */
 export default function generateIcsFile({
   calEvent,
   role,

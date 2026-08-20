@@ -1,21 +1,14 @@
 import { EMAIL_FROM_NAME } from "@calcom/lib/constants";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
-
-import generateIcsFile, { GenerateIcsRole } from "../lib/generateIcsFile";
 import renderEmail from "../src/renderEmail";
-import OrganizerScheduledEmail from "./organizer-scheduled-email";
 import type { Reassigned } from "./organizer-scheduled-email";
+import OrganizerScheduledEmail from "./organizer-scheduled-email";
 
 export default class OrganizerReassignedEmail extends OrganizerScheduledEmail {
   protected async getNodeMailerPayload(): Promise<Record<string, unknown>> {
     const toAddresses = [this.teamMember?.email || this.calEvent.organizer.email];
 
     return {
-      icalEvent: generateIcsFile({
-        calEvent: this.calEvent,
-        status: "CANCELLED",
-        role: GenerateIcsRole.ORGANIZER,
-      }),
       from: `${EMAIL_FROM_NAME} <${this.getMailerOptions().from}>`,
       to: toAddresses.join(","),
       subject: `${this.t("event_reassigned_subject", {

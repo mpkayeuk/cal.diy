@@ -9,5 +9,6 @@ export const AttendeeDeclinedEmail = (props: React.ComponentProps<typeof Attende
     subject="event_declined_subject"
     callToAction={null}
     {...props}
+    showAddToCalendar={false}
   />
 );

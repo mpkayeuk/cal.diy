@@ -1,6 +1,5 @@
 import { APP_NAME } from "@calcom/lib/constants";
 import { getReplyToHeader } from "@calcom/lib/getReplyToHeader";
-import generateIcsFile, { GenerateIcsRole } from "../lib/generateIcsFile";
 import renderEmail from "../src/renderEmail";
 import OrganizerScheduledEmail from "./organizer-scheduled-email";
 
@@ -16,11 +15,6 @@ export default class OrganizerAddAttendeeEmail extends OrganizerScheduledEmail {
     const toAddresses = [this.teamMember?.email || this.calEvent.organizer.email];
 
     return {
-      icalEvent: generateIcsFile({
-        calEvent: this.calEvent,
-        role: GenerateIcsRole.ORGANIZER,
-        status: "CONFIRMED",
-      }),
       from: `${APP_NAME} <${this.getMailerOptions().from}>`,
       to: toAddresses.join(","),
       ...getReplyToHeader(

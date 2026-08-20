@@ -20,5 +20,6 @@ export const OrganizerRequestedToRescheduleEmail = (
     subject="rescheduled_event_type_subject"
     callToAction={null}
     {...props}
+    showAddToCalendar={false}
   />
 );

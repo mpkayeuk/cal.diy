@@ -1,7 +1,5 @@
 import { EMAIL_FROM_NAME } from "@calcom/lib/constants";
 import type { CalendarEvent } from "@calcom/types/Calendar";
-
-import generateIcsFile, { GenerateIcsRole } from "../lib/generateIcsFile";
 import renderEmail from "../src/renderEmail";
 import OrganizerScheduledEmail from "./organizer-scheduled-email";
 
@@ -15,11 +13,6 @@ export default class OrganizerRequestedToRescheduleEmail extends OrganizerSchedu
     const toAddresses = [this.calEvent.organizer.email];
 
     return {
-      icalEvent: generateIcsFile({
-        calEvent: this.calEvent,
-        role: GenerateIcsRole.ORGANIZER,
-        status: "CANCELLED",
-      }),
       from: `${EMAIL_FROM_NAME} <${this.getMailerOptions().from}>`,
       to: toAddresses.join(","),
       subject: `${this.t("rescheduled_event_type_subject", {
