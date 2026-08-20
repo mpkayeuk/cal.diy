@@ -216,7 +216,8 @@ model EventType {
   hideCalendarNotes                        Boolean                @default(false)
   hideCalendarEventDetails                 Boolean                @default(false)
   // Fork-only column. Applied by scripts/supplemental-db so Prisma migrations stay compatible with upstream.
-  sendOutlookCalendarInvites               Boolean                @default(false)
+  // Default true matches Cal.com/Exchange: Graph includes attendees unless the event type opts out.
+  sendOutlookCalendarInvites               Boolean                @default(true)
   /// @zod.number.min(0)
   minimumBookingNotice                     Int                    @default(120)
   beforeEventBuffer                        Int                    @default(0)

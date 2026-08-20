@@ -39,7 +39,7 @@ function buildCalEvent(overrides: Partial<CalendarServiceEvent> = {}): CalendarS
 }
 
 describe("mapCalEventAttendeesToGraph", () => {
-  it("maps booking attendees and other team members when Exchange invites are opted in", () => {
+  it("maps booking attendees and other team members for Exchange invitations", () => {
     const event = buildCalEvent({
       team: {
         id: 9,
@@ -103,7 +103,7 @@ describe("buildOffice365CalendarEvent", () => {
     expect(payload.location).toBeUndefined();
   });
 
-  it("can still include attendees when Exchange invitations are explicitly requested", () => {
+  it("includes attendees when Exchange invitations are requested", () => {
     const payload = buildOffice365CalendarEvent(buildCalEvent(), { includeAttendees: true });
 
     expect(payload.attendees).toEqual([

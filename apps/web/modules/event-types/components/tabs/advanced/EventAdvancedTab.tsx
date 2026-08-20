@@ -914,12 +914,13 @@ export const EventAdvancedTab = ({
               customClassNames?.outlookCalendarInvites?.container
             )}
             descriptionClassName={customClassNames?.outlookCalendarInvites?.description}
-            data-testid="send-outlook-calendar-invites"
-            title={t("send_outlook_calendar_invites")}
+            data-testid="disable-outlook-calendar-invites"
+            title={t("disable_outlook_calendar_invites")}
             {...sendOutlookCalendarInvitesLocked}
-            description={t("description_send_outlook_calendar_invites")}
-            checked={Boolean(value)}
-            onCheckedChange={(e) => onChange(e)}
+            description={t("description_disable_outlook_calendar_invites")}
+            // Stored as send=true by default (Cal.com/Exchange). This toggle is the opt-out.
+            checked={!value}
+            onCheckedChange={(enabled) => onChange(!enabled)}
           />
         )}
       />

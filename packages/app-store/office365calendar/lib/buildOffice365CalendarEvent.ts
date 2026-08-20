@@ -9,8 +9,8 @@ export type Office365GraphAttendee = NonNullable<Event["attendees"]>[number];
 /**
  * Historical Graph attendee mapping. Exchange treats a non-empty `attendees` list as a
  * meeting request and emails every address. Cal.com already sends booking emails, so the
- * organiser calendar write does not use this unless the event type enables
- * `sendOutlookCalendarInvites`.
+ * organiser calendar write skips this when the event type sets
+ * `sendOutlookCalendarInvites` to false.
  */
 export function mapCalEventAttendeesToGraph(
   event: CalendarServiceEvent,

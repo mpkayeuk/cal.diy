@@ -473,7 +473,7 @@ class Office365CalendarService implements Calendar {
     return buildOffice365CalendarEvent(event, {
       rescheduledEvent,
       credentialUserEmail: this.credential.user?.email,
-      includeAttendees: Boolean(event.sendOutlookCalendarInvites),
+      includeAttendees: event.sendOutlookCalendarInvites !== false,
       isUpdate,
     });
   };

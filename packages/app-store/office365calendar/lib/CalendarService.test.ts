@@ -73,14 +73,18 @@ describe("Office365CalendarService.createEvent", () => {
     mockRequestRaw.mockReset();
   });
 
-  it("posts a Teams event without attendees and returns the join URL", async () => {
+  it("posts a Teams event with Graph attendees by default and returns the join URL", async () => {
     mockRequestRaw.mockImplementation(({ url, options }: { url: string; options: RequestInit }) => {
       if (url.endsWith("/me/calendar/events") && options.method === "POST") {
         const payload = JSON.parse(String(options.body));
-        expect(payload.attendees).toEqual([]);
+        expect(payload.attendees).toEqual([
+          {
+            emailAddress: { address: "mark@kaye.co", name: "Booker" },
+            type: "required",
+          },
+        ]);
         expect(payload.isOnlineMeeting).toBe(true);
         expect(payload.onlineMeetingProvider).toBe("teamsForBusiness");
-        expect(JSON.stringify(payload)).not.toContain("mark@kaye.co");
         return Promise.resolve(
           successResponse({
             json: {
@@ -104,16 +108,12 @@ describe("Office365CalendarService.createEvent", () => {
     expect(mockRequestRaw).toHaveBeenCalled();
   });
 
-  it("includes Graph attendees when the event type sends Outlook invitations", async () => {
+  it("omits Graph attendees when the event type disables Outlook invitations", async () => {
     mockRequestRaw.mockImplementation(({ url, options }: { url: string; options: RequestInit }) => {
       if (url.endsWith("/me/calendar/events") && options.method === "POST") {
         const payload = JSON.parse(String(options.body));
-        expect(payload.attendees).toEqual([
-          {
-            emailAddress: { address: "mark@kaye.co", name: "Booker" },
-            type: "required",
-          },
-        ]);
+        expect(payload.attendees).toEqual([]);
+        expect(JSON.stringify(payload)).not.toContain("mark@kaye.co");
         return Promise.resolve(
           successResponse({
             json: {
@@ -130,7 +130,10 @@ describe("Office365CalendarService.createEvent", () => {
     });
 
     const calendarService = BuildCalendarService(testCredential);
-    await calendarService.createEvent(buildCalEvent({ sendOutlookCalendarInvites: true }), testCredential.id);
+    await calendarService.createEvent(
+      buildCalEvent({ sendOutlookCalendarInvites: false }),
+      testCredential.id
+    );
 
     expect(mockRequestRaw).toHaveBeenCalled();
   });

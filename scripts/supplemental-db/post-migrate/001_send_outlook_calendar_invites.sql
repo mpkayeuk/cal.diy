@@ -1,2 +1,2 @@
 ALTER TABLE "EventType"
-ADD COLUMN IF NOT EXISTS "sendOutlookCalendarInvites" BOOLEAN NOT NULL DEFAULT false;
+ADD COLUMN IF NOT EXISTS "sendOutlookCalendarInvites" BOOLEAN NOT NULL DEFAULT true;

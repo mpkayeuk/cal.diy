@@ -118,7 +118,7 @@ export const buildEventType = (eventType?: Partial<EventType>): EventType => {
     disableGuests: false,
     hideCalendarNotes: false,
     hideCalendarEventDetails: false,
-    sendOutlookCalendarInvites: false,
+    sendOutlookCalendarInvites: true,
     minimumBookingNotice: 120,
     beforeEventBuffer: 0,
     afterEventBuffer: 0,

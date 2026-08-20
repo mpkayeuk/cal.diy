@@ -81,7 +81,7 @@ export const useEventTypeForm = ({
       },
       hideCalendarNotes: eventType.hideCalendarNotes,
       hideCalendarEventDetails: eventType.hideCalendarEventDetails,
-      sendOutlookCalendarInvites: eventType.sendOutlookCalendarInvites ?? false,
+      sendOutlookCalendarInvites: eventType.sendOutlookCalendarInvites ?? true,
       offsetStart: eventType.offsetStart,
       bookingFields: eventType.bookingFields,
       periodType: eventType.periodType,
