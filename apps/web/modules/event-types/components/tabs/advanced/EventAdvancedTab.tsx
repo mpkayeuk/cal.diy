@@ -918,7 +918,7 @@ export const EventAdvancedTab = ({
             title={t("send_outlook_calendar_invites")}
             {...sendOutlookCalendarInvitesLocked}
             description={t("description_send_outlook_calendar_invites")}
-            checked={value}
+            checked={Boolean(value)}
             onCheckedChange={(e) => onChange(e)}
           />
         )}

@@ -5,6 +5,13 @@ import dotEnv from "dotenv";
 
 dotEnv.config({ path: path.resolve(__dirname, "../.env") });
 
+// DDL must use the unpooled URL. Neon’s pooler can accept ALTER TABLE and
+// still leave the catalog unchanged, which is how this column went missing.
+const ddlConnectionString = process.env.DATABASE_DIRECT_URL || process.env.DATABASE_URL;
+if (ddlConnectionString) {
+  process.env.DATABASE_URL = ddlConnectionString;
+}
+
 export type SupplementalSchemaStage = "pre-migrate" | "post-migrate";
 
 const SUPPLEMENTAL_ROOT = path.resolve(__dirname, "supplemental-db");
@@ -46,8 +53,8 @@ export async function applySupplementalSchema(stage: SupplementalSchemaStage): P
     console.info("SKIP_SUPPLEMENTAL_SCHEMA set, skipping supplemental schema");
     return;
   }
-  if (!process.env.DATABASE_URL) {
-    console.info("No DATABASE_URL found, skipping supplemental schema");
+  if (!ddlConnectionString) {
+    console.info("No DATABASE_DIRECT_URL or DATABASE_URL found, skipping supplemental schema");
     return;
   }
 
