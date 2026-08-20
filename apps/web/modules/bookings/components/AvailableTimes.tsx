@@ -118,7 +118,7 @@ const SlotItem = ({
   const bookingFull = !!(hasTimeSlots && slot.attendees && slot.attendees >= seatsPerTimeSlot);
   const isHalfFull = slot.attendees && seatsPerTimeSlot && slot.attendees / seatsPerTimeSlot >= 0.5;
   const isNearlyFull = slot.attendees && seatsPerTimeSlot && slot.attendees / seatsPerTimeSlot >= 0.83;
-  const colorClass = isNearlyFull ? "bg-rose-600" : isHalfFull ? "bg-yellow-500" : "bg-emerald-400";
+  const colorClass = isNearlyFull ? "bg-rose-600" : isHalfFull ? "bg-yellow-500" : "bg-[var(--cal-available)]";
 
   const nowDate = dayjs();
   const usersTimezoneDate = nowDate.tz(timezone);
@@ -167,7 +167,7 @@ const SlotItem = ({
           onClick={onButtonClick}
           className={classNames(
             `hover:border-brand-default min-h-9 mb-2 flex h-auto w-full grow flex-col justify-center py-2`,
-            selectedSlots?.includes(slot.time) && "border-brand-default",
+            selectedSlots?.includes(slot.time) && "border-brand-default bg-brand-default text-brand",
             `${customClassNames}`
           )}
           color="secondary">
@@ -176,7 +176,7 @@ const SlotItem = ({
               <span
                 className={classNames(
                   "inline-block h-2 w-2 rounded-full",
-                  isOverlapping ? "bg-rose-600" : "bg-emerald-400"
+                  isOverlapping ? "bg-rose-600" : "bg-[var(--cal-available)]"
                 )}
               />
             )}

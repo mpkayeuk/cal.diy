@@ -54,7 +54,11 @@ export function UserPage(props: PageProps) {
 
   return (
     <>
-      <div className={classNames(shouldAlignCentrally ? "mx-auto" : "", isEmbed ? "max-w-3xl" : "")}>
+      <div
+        className={classNames(
+          shouldAlignCentrally ? "mx-auto" : "",
+          isEmbed ? "max-w-3xl" : "booker-page min-h-dvh w-full"
+        )}>
         <main
           className={classNames(
             shouldAlignCentrally ? "mx-auto" : "",

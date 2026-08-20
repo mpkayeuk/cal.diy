@@ -6,11 +6,11 @@ import { navigateInTopWindow } from "@calcom/lib/navigateInTopWindow";
 
 import { useBookingSuccessRedirect, getNewSearchParams } from "./bookingSuccessRedirect";
 
-const mockPush = vi.fn();
+const mockReplace = vi.fn();
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
-    push: mockPush,
+    replace: mockReplace,
   }),
 }));
 
@@ -411,7 +411,7 @@ describe("useBookingSuccessRedirect", () => {
           booking: mockBooking,
         });
 
-        expect(mockPush).toHaveBeenCalledWith(expect.stringContaining(expectedPath));
+        expect(mockReplace).toHaveBeenCalledWith(expect.stringContaining(expectedPath));
       });
     });
 
@@ -435,7 +435,7 @@ describe("useBookingSuccessRedirect", () => {
           booking: mockBooking,
         });
 
-        const calledUrl = mockPush.mock.calls[0][0];
+        const calledUrl = mockReplace.mock.calls[0][0];
 
         // ALL params should be preserved for internal navigation
         expect(calledUrl).toContain("test=value");
@@ -469,7 +469,7 @@ describe("useBookingSuccessRedirect", () => {
           booking: mockBooking,
         });
 
-        const calledUrl = mockPush.mock.calls[0][0];
+        const calledUrl = mockReplace.mock.calls[0][0];
         expect(calledUrl).toContain(expectedParam);
       });
     });
@@ -486,7 +486,7 @@ describe("useBookingSuccessRedirect", () => {
         booking: mockBooking,
       });
 
-      expect(mockPush).toHaveBeenCalled();
+      expect(mockReplace).toHaveBeenCalled();
       expect(navigateInTopWindow).not.toHaveBeenCalled();
     });
 
@@ -500,7 +500,7 @@ describe("useBookingSuccessRedirect", () => {
         booking: mockBooking,
       });
 
-      expect(mockPush).toHaveBeenCalled();
+      expect(mockReplace).toHaveBeenCalled();
       expect(navigateInTopWindow).not.toHaveBeenCalled();
     });
 

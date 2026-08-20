@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 
+import { EMAIL_INK, EMAIL_MUTED } from "../lib/emailBrand";
 import EmailCommonDivider from "./EmailCommonDivider";
 
 const EmailScheduledBodyHeaderContent = (props: {
@@ -26,7 +27,7 @@ const EmailScheduledBodyHeaderContent = (props: {
             fontWeight: 700,
             lineHeight: "24px",
             textAlign: "center",
-            color: "#111827",
+            color: EMAIL_INK,
           }}>
           {props.title}
         </div>
@@ -43,7 +44,7 @@ const EmailScheduledBodyHeaderContent = (props: {
               fontWeight: 400,
               lineHeight: "24px",
               textAlign: "center",
-              color: "#4B5563",
+              color: EMAIL_MUTED,
             }}>
             {props.subtitle}
           </div>

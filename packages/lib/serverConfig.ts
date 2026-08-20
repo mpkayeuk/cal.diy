@@ -3,6 +3,7 @@ import type SMTPConnection from "nodemailer/lib/smtp-connection";
 
 import { isENVDev } from "@calcom/lib/env";
 
+import { EMAIL_FROM_ADDRESS } from "./constants";
 import { getAdditionalEmailHeaders } from "./getAdditionalEmailHeaders";
 
 function detectTransport(): SendmailTransport.Options | SMTPConnection.Options | string {
@@ -56,6 +57,6 @@ function detectTransport(): SendmailTransport.Options | SMTPConnection.Options |
 
 export const serverConfig = {
   transport: detectTransport(),
-  from: process.env.EMAIL_FROM,
+  from: EMAIL_FROM_ADDRESS,
   headers: getAdditionalEmailHeaders()[process.env.EMAIL_SERVER_HOST || ""] || undefined,
 };

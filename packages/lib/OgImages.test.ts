@@ -1,10 +1,9 @@
 import { describe, expect, it } from "vitest";
-
 import {
-  getOGImageVersion,
-  constructMeetingImage,
   constructAppImage,
   constructGenericImage,
+  constructMeetingImage,
+  getOGImageVersion,
 } from "./OgImages";
 
 describe("OgImages", () => {
@@ -84,7 +83,7 @@ describe("OgImages", () => {
   });
 
   describe("OG image branding uses configurable logo constants", () => {
-    it("generic type uses LOGO_DARK (with LOGO fallback) for darker logo on light backgrounds", async () => {
+    it("generic type uses the light-background logo constant", async () => {
       const genericVersion = await getOGImageVersion("generic");
       expect(genericVersion).toBeTruthy();
       expect(typeof genericVersion).toBe("string");

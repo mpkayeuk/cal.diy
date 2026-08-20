@@ -3,8 +3,13 @@ import classNames from "@calcom/ui/classNames";
 
 export const EventMetaSkeleton = () => (
   <div className="flex flex-col">
-    <SkeletonText className="h-6 w-6 rounded-full" />
-    <SkeletonText className="mt-2 h-5 w-32" />
+    <div className="flex flex-col items-start gap-3">
+      <SkeletonText className="h-12 w-40" />
+      <div className="flex items-center gap-2">
+        <SkeletonText className="h-6 w-6 rounded-full" />
+        <SkeletonText className="h-5 w-32" />
+      </div>
+    </div>
     <SkeletonText className="mt-2 h-8 w-48" />
 
     <div className="mt-8">

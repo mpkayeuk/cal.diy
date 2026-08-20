@@ -243,7 +243,8 @@ export const useBookingSuccessRedirect = () => {
       query,
       searchParams: new URLSearchParams(headersRelatedSearchParams),
     });
-    return router.push(`/booking/${booking.uid}${isEmbed ? "/embed" : ""}?${newSearchParams.toString()}`);
+    // Replace so the booker form is not left in history (Back would re-open a completed booking form).
+    return router.replace(`/booking/${booking.uid}${isEmbed ? "/embed" : ""}?${newSearchParams.toString()}`);
   };
 
   return bookingSuccessRedirect;

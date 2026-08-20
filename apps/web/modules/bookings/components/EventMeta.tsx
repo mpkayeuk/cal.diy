@@ -19,7 +19,6 @@ import { useEffect, useMemo } from "react";
 import { shallow } from "zustand/shallow";
 import i18nConfigration from "../../../../../i18n.json";
 import { EventDetails, EventMembers, EventMetaSkeleton, EventTitle } from "./event-meta";
-import { ScrollableWithGradients } from "./ScrollableWithGradients";
 
 const WebTimezoneSelect = dynamic(
   () => import("@calcom/web/modules/timezone/components/TimezoneSelect").then((mod) => mod.TimezoneSelect),
@@ -178,16 +177,18 @@ export const EventMeta = ({
           </EventTitle>
           {(event.description || translatedDescription) && (
             <EventMetaBlock data-testid="event-meta-description" contentClassName="mb-8">
-              <ScrollableWithGradients
-                className="wrap-break-word scroll-bar max-h-[180px] max-w-full overflow-y-auto pr-4"
-                ariaLabel={t("description")}>
+              <div
+                className="wrap-break-word scroll-bar max-h-[320px] max-w-full overflow-y-auto pr-4"
+                tabIndex={0}
+                role="region"
+                aria-label={t("description")}>
                 {/* biome-ignore lint/security/noDangerouslySetInnerHtml: Content is sanitized via markdownToSafeHTMLClient */}
                 <div
                   dangerouslySetInnerHTML={{
                     __html: markdownToSafeHTMLClient(translatedDescription ?? event.description),
                   }}
                 />
-              </ScrollableWithGradients>
+              </div>
             </EventMetaBlock>
           )}
           <div className="stack-y-4 font-medium rtl:-mr-2">

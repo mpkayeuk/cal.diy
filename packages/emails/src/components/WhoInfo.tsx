@@ -3,6 +3,7 @@ import type { TFunction } from "i18next";
 import isSmsCalEmail from "@calcom/lib/isSmsCalEmail";
 import type { CalendarEvent } from "@calcom/types/Calendar";
 
+import { EMAIL_FONT, EMAIL_INK } from "../lib/emailBrand";
 import { Info } from "./Info";
 
 export const PersonInfo = ({ name = "", email = "", role = "", phoneNumber = "" }) => {
@@ -10,15 +11,18 @@ export const PersonInfo = ({ name = "", email = "", role = "", phoneNumber = "" 
   const formattedPhoneNumber = !!phoneNumber ? `${phoneNumber} ` : "";
 
   return (
-    <div style={{ color: "#101010", fontWeight: 400, lineHeight: "24px" }}>
+    <div style={{ color: EMAIL_INK, fontWeight: 700, lineHeight: "24px", fontFamily: EMAIL_FONT }}>
       {name} - {role} {formattedPhoneNumber}
-      {displayEmail && (
-        <span style={{ color: "#4B5563" }}>
-          <a href={`mailto:${email}`} style={{ color: "#4B5563" }}>
+      {displayEmail ? (
+        <>
+          {" "}
+          <a
+            href={`mailto:${email}`}
+            style={{ color: EMAIL_INK, textDecoration: "underline", fontWeight: 700 }}>
             {email}
           </a>
-        </span>
-      )}
+        </>
+      ) : null}
     </div>
   );
 };

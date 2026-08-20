@@ -5,6 +5,7 @@ import ServerTrans from "@calcom/lib/components/ServerTrans";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
 
+import { EMAIL_BRAND } from "../lib/emailBrand";
 import { BaseScheduledEmail } from "./BaseScheduledEmail";
 
 // https://stackoverflow.com/questions/56263980/get-key-of-an-enum-from-its-value-in-typescript
@@ -22,7 +23,8 @@ const BrokenVideoIntegration = (props: { location: string; eventTypeId?: number 
       components={[
         <a
           key="broken-video-action-link-1"
-          className="cursor-pointer text-blue-500 underline"
+          className="cursor-pointer underline"
+          style={{ color: EMAIL_BRAND }}
           href={
             props.eventTypeId ? `${WEBAPP_URL}/event-types/${props.eventTypeId}` : `${WEBAPP_URL}/event-types`
           }>
@@ -30,7 +32,8 @@ const BrokenVideoIntegration = (props: { location: string; eventTypeId?: number 
         </a>,
         <a
           key="broken-video-action-link-2"
-          className="cursor-pointer text-blue-500 underline"
+          className="cursor-pointer underline"
+          style={{ color: EMAIL_BRAND }}
           href={`${WEBAPP_URL}/apps/installed`}>
           removing and adding the app again.
         </a>,

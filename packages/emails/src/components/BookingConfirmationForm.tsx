@@ -1,3 +1,5 @@
+import { EMAIL_CARD_BG, EMAIL_FONT, EMAIL_INK, EMAIL_LINE } from "../lib/emailBrand";
+
 export const BookingConfirmationForm = (props: { action: string; children: React.ReactNode }) => {
   return (
     <form action={props.action} method="POST" target="_blank">
@@ -5,10 +7,10 @@ export const BookingConfirmationForm = (props: { action: string; children: React
       <p
         style={{
           display: "inline-block",
-          background: "#FFFFFF",
+          background: EMAIL_CARD_BG,
           border: "",
-          color: "#ffffff",
-          fontFamily: "Roboto, Helvetica, sans-serif",
+          color: EMAIL_INK,
+          fontFamily: EMAIL_FONT,
           fontSize: "0.875rem",
           fontWeight: 500,
           lineHeight: "1rem",
@@ -26,8 +28,8 @@ export const BookingConfirmationForm = (props: { action: string; children: React
         }}>
         <label
           style={{
-            color: "#3e3e3e",
-            fontFamily: "Roboto, Helvetica, sans-serif",
+            color: EMAIL_INK,
+            fontFamily: EMAIL_FONT,
             fontSize: "0.875rem",
             fontWeight: 500,
             lineHeight: "1rem",
@@ -43,25 +45,13 @@ export const BookingConfirmationForm = (props: { action: string; children: React
           placeholder="Why are you rejecting?"
           style={{
             appearance: "none",
-            backgroundColor: "rgb(255, 255, 255)",
-            borderBottomColor: "rgb(209, 213, 219)",
-            borderBottomLeftRadius: "6px",
-            borderBottomRightRadius: "6px",
-            borderBottomStyle: "solid",
-            borderBottomWidth: "1px",
-            borderLeftColor: "rgb(209, 213, 219)",
-            borderLeftStyle: "solid",
-            borderLeftWidth: "1px",
-            borderRightColor: "rgb(209, 213, 219)",
-            borderRightStyle: "solid",
-            borderRightWidth: "1px",
-            borderTopColor: "rgb(209, 213, 219)",
-            borderTopLeftRadius: "6px",
-            borderTopRightRadius: "6px",
-            borderTopStyle: "solid",
-            borderTopWidth: "1px",
+            backgroundColor: EMAIL_CARD_BG,
+            borderColor: EMAIL_LINE,
+            borderRadius: "6px",
+            borderStyle: "solid",
+            borderWidth: "1px",
             boxSizing: "border-box",
-            color: "rgb(56, 66, 82)",
+            color: EMAIL_INK,
             display: "block",
             fontSize: "14px",
             lineHeight: "20px",
@@ -74,8 +64,6 @@ export const BookingConfirmationForm = (props: { action: string; children: React
             paddingRight: "12px",
             paddingTop: "8px",
             resize: "vertical",
-            scrollbarColor: "auto",
-            scrollbarWidth: "auto",
             tabSize: 4,
             textAlign: "start",
             visibility: "visible",

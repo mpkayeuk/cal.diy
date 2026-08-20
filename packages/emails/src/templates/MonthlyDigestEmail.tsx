@@ -2,6 +2,7 @@ import type { TFunction } from "i18next";
 
 import { APP_NAME, SENDER_NAME, SUPPORT_MAIL_ADDRESS } from "@calcom/lib/constants";
 
+import { EMAIL_BRAND, EMAIL_LINE } from "../lib/emailBrand";
 import { BaseEmailHtml } from "../components";
 
 export type MonthlyDigestEmailData = {
@@ -129,7 +130,7 @@ export const MonthlyDigestEmail = (
             style={{
               display: "flex",
               justifyContent: "space-between",
-              borderBottom: "1px solid #D1D5DB",
+              borderBottom: `1px solid ${EMAIL_LINE}`,
               fontSize: "16px",
             }}>
             <p style={{ fontWeight: 500 }}>{props.language("most_popular_events")}</p>
@@ -142,7 +143,7 @@ export const MonthlyDigestEmail = (
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    borderBottom: `${idx === props.mostBookedEvents.length - 1 ? "" : "1px solid #D1D5DB"}`,
+                    borderBottom: `${idx === props.mostBookedEvents.length - 1 ? "" : `1px solid ${EMAIL_LINE}`}`,
                   }}>
                   <p style={{ fontWeight: "normal" }}>{ev.eventTypeName}</p>
                   <p style={{ fontWeight: "normal" }}>{ev.count}</p>
@@ -155,7 +156,7 @@ export const MonthlyDigestEmail = (
             style={{
               display: "flex",
               justifyContent: "space-between",
-              borderBottom: "1px solid #D1D5DB",
+              borderBottom: `1px solid ${EMAIL_LINE}`,
             }}>
             <p style={{ fontWeight: 500 }}>{props.language("most_booked_members")}</p>
             <p style={{ fontWeight: 500 }}>{props.language("bookings")}</p>
@@ -168,7 +169,7 @@ export const MonthlyDigestEmail = (
                     display: "flex",
                     justifyContent: "space-between",
                     borderBottom: `${
-                      idx === props.membersWithMostBookings.length - 1 ? "" : "1px solid #D1D5DB"
+                      idx === props.membersWithMostBookings.length - 1 ? "" : `1px solid ${EMAIL_LINE}`
                     }`,
                   }}>
                   <p style={{ fontWeight: "normal" }}>{it.user.name}</p>
@@ -184,7 +185,7 @@ export const MonthlyDigestEmail = (
             {props.language("happy_scheduling")}, <br />
             <a
               href={`mailto:${SUPPORT_MAIL_ADDRESS}`}
-              style={{ color: "#3E3E3E" }}
+              style={{ color: EMAIL_BRAND }}
               target="_blank"
               rel="noreferrer">
               <>{props.language("the_calcom_team", { companyName: SENDER_NAME })}</>

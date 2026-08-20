@@ -28,7 +28,7 @@ import { isWithinMinimumRescheduleNotice as isWithinMinimumRescheduleNoticeUtil 
 import type { nameObjectSchema } from "@calcom/features/eventtypes/lib/eventNaming";
 import { getEventName } from "@calcom/features/eventtypes/lib/eventNaming";
 import { shouldShowFieldInCustomResponses } from "@calcom/lib/bookings/SystemField";
-import { APP_NAME } from "@calcom/lib/constants";
+import { APP_NAME, LOGO, LOGO_DARK, POWERED_BY_URL } from "@calcom/lib/constants";
 import { formatToLocalizedDate, formatToLocalizedTime, formatToLocalizedTimezone } from "@calcom/lib/dayjs";
 import useGetBrandingColours from "@calcom/lib/getBrandColours";
 import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
@@ -52,7 +52,7 @@ import { Avatar } from "@calcom/ui/components/avatar";
 import { Badge } from "@calcom/ui/components/badge";
 import { Button } from "@calcom/ui/components/button";
 import { EmptyScreen } from "@calcom/ui/components/empty-screen";
-import { EmailInput, TextArea } from "@calcom/ui/components/form";
+import { TextArea } from "@calcom/ui/components/form";
 import { Icon } from "@calcom/ui/components/icon";
 import {
   CalendarIcon,
@@ -361,6 +361,8 @@ export default function Success(props: PageProps) {
     brandColor: props.profile.brandColor,
     darkBrandColor: props.profile.darkBrandColor,
   });
+  // After a successful book, Back must not return to the form (duplicate bookings) or leave this confirmation.
+  useLockBrowserBack({ enabled: isSuccessBookingPage && !isEmbed && !isFeedbackMode });
   const locationToDisplay = getSuccessPageLocationMessage(
     locationVideoCallUrl ? locationVideoCallUrl : location,
     t,
@@ -460,8 +462,17 @@ export default function Success(props: PageProps) {
     return isRecurringBooking ? t("meeting_is_scheduled_recurring") : t("meeting_is_scheduled");
   })();
 
+  const isBrandedSuccess = Boolean(isSuccessBookingPage) && !isEmbed && !isFeedbackMode;
+  const showStatusIcon =
+    !isBrandedSuccess ||
+    Boolean(giphyImage) ||
+    isRoundRobin ||
+    isCancelled ||
+    needsConfirmation ||
+    Boolean(isAwaitingPayment);
+
   return (
-    <div className={isEmbed ? "" : "h-screen"} data-testid="success-page">
+    <div className={isEmbed ? "" : "booker-page h-screen"} data-testid="success-page">
       {!isEmbed && !isFeedbackMode && (
         <EventReservationSchema
           reservationId={bookingInfo.uid}
@@ -475,7 +486,7 @@ export default function Success(props: PageProps) {
           status={status}
         />
       )}
-      {isLoggedIn && !isEmbed && !isFeedbackMode && (
+      {isLoggedIn && !isEmbed && !isFeedbackMode && !isSuccessBookingPage && (
         <div className="-mb-4 ml-4 mt-2">
           <Link
             href={allRemainingBookings ? "/bookings/recurring" : "/bookings/upcoming"}
@@ -493,7 +504,8 @@ export default function Success(props: PageProps) {
           <div
             className={classNames(
               shouldAlignCentrally ? "text-center" : "",
-              "flex items-end justify-center px-4 pb-20 pt-4 sm:flex sm:p-0"
+              "flex justify-center px-4 pb-20 pt-4 sm:flex sm:p-0",
+              isBrandedSuccess ? "items-center" : "items-end"
             )}>
             <div
               className={classNames(
@@ -503,16 +515,30 @@ export default function Success(props: PageProps) {
               aria-hidden="true">
               <div
                 className={classNames(
-                  "inline-block transform overflow-hidden rounded-lg border sm:my-8 sm:max-w-xl",
-                  !isBackgroundTransparent &&
-                    " bg-default dark:bg-cal-muted border-booker border-booker-width",
-                  "px-8 pb-4 pt-5 text-left align-bottom transition-all sm:w-full sm:py-8 sm:align-middle"
+                  "transform overflow-hidden sm:my-8",
+                  isBrandedSuccess
+                    ? "booking-success-branded my-4 w-full"
+                    : classNames(
+                        "inline-block rounded-lg border px-8 pb-4 pt-5 text-left align-bottom transition-all sm:w-full sm:max-w-xl sm:py-8 sm:align-middle",
+                        !isBackgroundTransparent &&
+                          " bg-default dark:bg-cal-muted border-booker border-booker-width"
+                      )
                 )}
+                data-testid="booking-success-card"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="modal-headline">
+                {isBrandedSuccess && !props.hideBranding ? (
+                  <div className="booking-success-branded__header">
+                    <a href={POWERED_BY_URL} target="_blank" rel="noreferrer">
+                      <img src={LOGO_DARK} alt={APP_NAME} className="booking-success-branded__logo" />
+                    </a>
+                  </div>
+                ) : null}
+                <div className={isBrandedSuccess ? "booking-success-branded__body" : undefined}>
                 {!isFeedbackMode && (
                   <>
+                    {showStatusIcon ? (
                     <div
                       className={classNames(isRoundRobin && "min-h-24 min-w-32 relative mx-auto h-24 w-32")}>
                       {isRoundRobin && bookingInfo.user && (
@@ -533,7 +559,9 @@ export default function Success(props: PageProps) {
                           isRoundRobin &&
                             "border-cal-bg dark:border-cal-bg-muted absolute bottom-0 right-0 z-10 h-12 w-12 border-8",
                           !giphyImage && isReschedulable && !needsConfirmation && !isAwaitingPayment
-                            ? "bg-cal-success"
+                            ? isSuccessBookingPage
+                              ? "bg-[var(--cal-available)]"
+                              : "bg-cal-success"
                             : "",
                           !giphyImage && isReschedulable && (needsConfirmation || isAwaitingPayment)
                             ? "bg-subtle"
@@ -541,7 +569,13 @@ export default function Success(props: PageProps) {
                           isCancelled ? "bg-error" : ""
                         )}>
                         {!giphyImage && !needsConfirmation && !isAwaitingPayment && isReschedulable && (
-                          <CheckIcon className="h-5 w-5 text-green-600 dark:text-green-400" />
+                          <CheckIcon
+                            className={
+                              isSuccessBookingPage
+                                ? "h-5 w-5 text-[var(--cal-text-emphasis)]"
+                                : "h-5 w-5 text-green-600 dark:text-green-400"
+                            }
+                          />
                         )}
                         {(needsConfirmation || isAwaitingPayment) && isReschedulable && (
                           <CalendarIcon className="text-emphasis h-5 w-5" />
@@ -549,9 +583,13 @@ export default function Success(props: PageProps) {
                         {isCancelled && <XIcon className="h-5 w-5 text-red-600 dark:text-red-200" />}
                       </div>
                     </div>
-                    <div className="mb-8 mt-6 text-center last:mb-0">
+                    ) : null}
+                    <div className={classNames("mb-8 last:mb-0", isBrandedSuccess ? "mt-0 text-left" : "mt-6 text-center")}>
                       <h3
-                        className="text-emphasis text-2xl font-semibold leading-6"
+                        className={classNames(
+                          "text-emphasis leading-6",
+                          isBrandedSuccess ? "font-bold" : "text-2xl font-semibold"
+                        )}
                         data-testid={isCancelled ? "cancelled-headline" : ""}
                         id="modal-headline">
                         {successPageHeadline}
@@ -559,6 +597,13 @@ export default function Success(props: PageProps) {
 
                       <div className="mt-3">
                         <p className="text-default">{getTitle()}</p>
+                        {isSuccessBookingPage && !isCancelled && (
+                          <p className="text-subtle mt-3 text-sm">
+                            {t("safe_to_close_this_window", {
+                              defaultValue: "It's safe to close this window or tab.",
+                            })}
+                          </p>
+                        )}
                       </div>
                       {props.paymentStatus &&
                         (bookingInfo.status === BookingStatus.CANCELLED ||
@@ -1034,37 +1079,11 @@ export default function Success(props: PageProps) {
                       </>
                     )}
 
-                    {session === null && !(userIsOwner || props.hideBranding) && (
+                    {session === null && !(userIsOwner || props.hideBranding) && !isSuccessBookingPage && (
                       <>
                         <hr className="border-subtle mt-8" />
                         <div className="text-default pt-8 text-center text-xs">
-                          <a href="https://cal.com/signup">
-                            {t("create_booking_link_with_calcom", { appName: APP_NAME })}
-                          </a>
-
-                          <form
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              const target = e.target as typeof e.target & {
-                                email: { value: string };
-                              };
-                              router.push(`https://cal.com/signup?email=${target.email.value}`);
-                            }}
-                            className="mt-4 flex">
-                            <EmailInput
-                              name="email"
-                              id="email"
-                              defaultValue={email}
-                              className="mr- focus:border-brand-default border-default text-default mt-0 block w-full rounded-none rounded-l-md shadow-sm focus:ring-black sm:text-sm"
-                              placeholder="rick.astley@cal.com"
-                            />
-                            <Button
-                              type="submit"
-                              className="min-w-max rounded-none rounded-r-md"
-                              color="primary">
-                              {t("try_for_free")}
-                            </Button>
-                          </form>
+                          <SuccessBrandLogo />
                         </div>
                       </>
                     )}
@@ -1132,8 +1151,9 @@ export default function Success(props: PageProps) {
                       </div>
                     </>
                   ))}
+                </div>
               </div>
-              {isGmail && !isFeedbackMode && (
+              {isGmail && !isFeedbackMode && !isBrandedSuccess && (
                 <Alert
                   className="main -mb-20 mt-4 inline-block ltr:text-left rtl:text-right sm:-mt-4 sm:mb-4 sm:w-full sm:max-w-xl sm:align-middle"
                   severity="warning"
@@ -1348,4 +1368,37 @@ function RecurringBookings({
       <span className="text-bookinglight">({formatToLocalizedTimezone(date, language, tz)})</span>
     </div>
   );
+}
+
+function SuccessBrandLogo({ className }: { className?: string }) {
+  return (
+    <a
+      href={POWERED_BY_URL}
+      target="_blank"
+      rel="noreferrer"
+      className={classNames("flex justify-center", className)}>
+      <img src={LOGO} alt={APP_NAME} className="h-12 w-auto dark:hidden" />
+      <img src={LOGO_DARK} alt="" className="hidden h-12 w-auto dark:inline" />
+    </a>
+  );
+}
+
+function useLockBrowserBack({ enabled }: { enabled: boolean }) {
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
+    const url = window.location.href;
+    window.history.pushState({ bookingSuccessLock: true }, "", url);
+
+    const onPopState = () => {
+      window.history.pushState({ bookingSuccessLock: true }, "", url);
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+    };
+  }, [enabled]);
 }

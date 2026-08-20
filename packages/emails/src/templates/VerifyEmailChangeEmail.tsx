@@ -2,6 +2,7 @@ import type { TFunction } from "i18next";
 
 import { APP_NAME, SENDER_NAME, SUPPORT_MAIL_ADDRESS } from "@calcom/lib/constants";
 
+import { EMAIL_BRAND, EMAIL_MUTED } from "../lib/emailBrand";
 import { BaseEmailHtml, CallToAction } from "../components";
 
 export type EmailVerifyLink = {
@@ -54,7 +55,7 @@ export const VerifyEmailChangeEmail = (
           </span>
           <p
             style={{
-              color: `#6B7280`,
+              color: EMAIL_MUTED,
               lineHeight: 1,
               fontWeight: 400,
             }}>
@@ -75,7 +76,7 @@ export const VerifyEmailChangeEmail = (
           </span>
           <p
             style={{
-              color: `#6B7280`,
+              color: EMAIL_MUTED,
               lineHeight: 1,
               fontWeight: 400,
             }}>
@@ -90,7 +91,7 @@ export const VerifyEmailChangeEmail = (
             {props.language("happy_scheduling")}, <br />
             <a
               href={`mailto:${SUPPORT_MAIL_ADDRESS}`}
-              style={{ color: "#3E3E3E" }}
+              style={{ color: EMAIL_BRAND }}
               target="_blank"
               rel="noreferrer">
               <>{props.language("the_calcom_team", { companyName: SENDER_NAME })}</>

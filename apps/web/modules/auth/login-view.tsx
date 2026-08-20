@@ -8,6 +8,7 @@ import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Alert } from "@calcom/ui/components/alert";
 import { Icon } from "@calcom/ui/components/icon";
+import { Logo } from "@calcom/ui/components/logo";
 import { LastUsed, useLastUsed } from "@calcom/web/modules/auth/hooks/useLastUsed";
 import AddToHomescreen from "@components/AddToHomescreen";
 import BackupCode from "@components/auth/BackupCode";
@@ -36,13 +37,9 @@ interface LoginValues {
   csrfToken: string;
 }
 
-const MicrosoftIcon = () => (
-  <img className="size-4" src="/microsoft-logo.svg" alt="" />
-);
+const MicrosoftIcon = () => <img className="size-4" src="/microsoft-logo.svg" alt="" />;
 
-const GoogleIcon = () => (
-  <img className="size-4" src="/google-icon-colored.svg" alt="" />
-);
+const GoogleIcon = () => <img className="size-4" src="/google-icon-colored.svg" alt="" />;
 
 function BackgroundGrid() {
   const rows = 9;
@@ -181,9 +178,8 @@ export default function Login({
       <div className="relative z-10 flex w-full max-w-md flex-col items-center">
         {/* Main Card */}
         <div className="w-full rounded-xl border border-subtle bg-default p-10 shadow-sm">
-          {/* Logo */}
-          <div className="mb-2 text-center">
-            <h1 className="font-cal text-xl font-bold text-emphasis">Cal.diy</h1>
+          <div className="mb-4 text-center">
+            <Logo inline={false} className="mx-auto [&_img]:h-8" />
           </div>
 
           {/* Heading */}
@@ -309,11 +305,7 @@ export default function Login({
               {errorMessage && <Alert severity="error" title={errorMessage} className="mt-4" />}
 
               {/* Submit Button */}
-              <Button
-                type="submit"
-                variant="outline"
-                className="mt-8 w-full"
-                disabled={formState.isSubmitting}>
+              <Button type="submit" className="mt-8 w-full" disabled={formState.isSubmitting}>
                 {twoFactorRequired ? t("submit") : t("continue")}
               </Button>
             </form>

@@ -2,6 +2,7 @@ import type { TFunction } from "i18next";
 
 import { APP_NAME, SUPPORT_MAIL_ADDRESS } from "@calcom/lib/constants";
 
+import { EMAIL_BRAND } from "../lib/emailBrand";
 import { BaseEmailHtml, CallToAction } from "../components";
 
 export type PasswordReset = {
@@ -36,7 +37,7 @@ export const ForgotPasswordEmail = (
             {props.language("have_any_questions")}{" "}
             <a
               href={`mailto:${SUPPORT_MAIL_ADDRESS}`}
-              style={{ color: "#3E3E3E" }}
+              style={{ color: EMAIL_BRAND }}
               target="_blank"
               rel="noreferrer">
               <>{props.language("contact_our_support_team")}</>

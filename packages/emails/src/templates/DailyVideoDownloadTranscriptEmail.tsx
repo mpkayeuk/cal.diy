@@ -1,7 +1,6 @@
+import { COMPANY_NAME } from "@calcom/lib/constants";
 import type { TFunction } from "i18next";
-
-import { WEBAPP_URL, COMPANY_NAME } from "@calcom/lib/constants";
-
+import { EMAIL_CALLOUT_BG, EMAIL_INK } from "../lib/emailBrand";
 import { V2BaseEmailHtml } from "../components";
 
 interface DailyVideoDownloadTranscriptEmailProps {
@@ -15,39 +14,19 @@ interface DailyVideoDownloadTranscriptEmailProps {
 export const DailyVideoDownloadTranscriptEmail = (
   props: DailyVideoDownloadTranscriptEmailProps & Partial<React.ComponentProps<typeof V2BaseEmailHtml>>
 ) => {
-  const image = `${WEBAPP_URL}/emails/logo.png`;
   return (
     <V2BaseEmailHtml
       subject={props.language("download_transcript_email_subject", {
         title: props.title,
         date: props.date,
       })}>
-      <div style={{ width: "89px", marginBottom: "35px" }}>
-        <a href={WEBAPP_URL} target="_blank" rel="noreferrer">
-          <img
-            height="19"
-            src={image}
-            style={{
-              border: "0",
-              display: "block",
-              outline: "none",
-              textDecoration: "none",
-              height: "19px",
-              width: "100%",
-              fontSize: "13px",
-            }}
-            width="89"
-            alt=""
-          />
-        </a>
-      </div>
       <p
         style={{
           fontSize: "32px",
           fontWeight: "600",
           lineHeight: "38.5px",
           marginBottom: "40px",
-          color: "black",
+          color: EMAIL_INK,
         }}>
         <>{props.language("download_your_transcripts")}</>
       </p>
@@ -63,7 +42,7 @@ export const DailyVideoDownloadTranscriptEmail = (
           <div
             key={`transcript-${index}`}
             style={{
-              backgroundColor: "#F3F4F6",
+              backgroundColor: EMAIL_CALLOUT_BG,
               padding: "32px",
               marginBottom: "40px",
             }}>
@@ -73,7 +52,7 @@ export const DailyVideoDownloadTranscriptEmail = (
                 lineHeight: "20px",
                 fontWeight: 600,
                 marginBottom: "8px",
-                color: "black",
+                color: EMAIL_INK,
               }}>
               <>{props.title}</>
             </p>
@@ -83,7 +62,7 @@ export const DailyVideoDownloadTranscriptEmail = (
                 lineHeight: "24px",
                 marginBottom: "24px",
                 marginTop: "0px",
-                color: "black",
+                color: EMAIL_INK,
               }}>
               {props.date} Transcript {index + 1}
             </p>

@@ -1478,39 +1478,33 @@ export const EventAdvancedTab = ({
         />
       )}
 
-      {team?.parentId && (
-        <>
-          <Controller
-            name="metadata.disableStandardEmails.all.attendee"
-            render={({ field: { value, onChange } }) => {
-              return (
-                <DisableAllEmailsSetting
-                  checked={value}
-                  onCheckedChange={onChange}
-                  recipient="attendees"
-                  customClassNames={customClassNames?.emailNotifications}
-                  t={t}
-                />
-              );
-            }}
+      <Controller
+        name="metadata.disableStandardEmails.all.attendee"
+        render={({ field: { value, onChange } }) => {
+          return (
+            <DisableAllEmailsSetting
+              checked={value}
+              onCheckedChange={onChange}
+              recipient="attendees"
+              customClassNames={customClassNames?.emailNotifications}
+              t={t}
+            />
+          );
+        }}
+      />
+      <Controller
+        name="metadata.disableStandardEmails.all.host"
+        defaultValue={!!formMethods.getValues("seatsPerTimeSlot")}
+        render={({ field: { value, onChange } }) => (
+          <DisableAllEmailsSetting
+            checked={value}
+            onCheckedChange={onChange}
+            recipient="hosts"
+            customClassNames={customClassNames?.emailNotifications}
+            t={t}
           />
-          <Controller
-            name="metadata.disableStandardEmails.all.host"
-            defaultValue={!!formMethods.getValues("seatsPerTimeSlot")}
-            render={({ field: { value, onChange } }) => (
-              <>
-                <DisableAllEmailsSetting
-                  checked={value}
-                  onCheckedChange={onChange}
-                  recipient="hosts"
-                  customClassNames={customClassNames?.emailNotifications}
-                  t={t}
-                />
-              </>
-            )}
-          />
-        </>
-      )}
+        )}
+      />
       {showEventNameTip && (
         <CustomEventTypeModal
           close={closeEventNameTip}

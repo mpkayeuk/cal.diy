@@ -5,7 +5,7 @@ import type { TransportOptions } from "nodemailer";
 import nodemailer from "nodemailer";
 import path from "node:path";
 
-import { APP_NAME, WEBAPP_URL } from "@calcom/lib/constants";
+import { APP_NAME, EMAIL_FROM_ADDRESS, EMAIL_FROM_NAME, WEBAPP_URL } from "@calcom/lib/constants";
 import { serverConfig } from "@calcom/lib/serverConfig";
 
 const transporter = nodemailer.createTransport<TransportOptions>({
@@ -28,13 +28,15 @@ const sendVerificationRequest = async ({
   const emailTemplate = Handlebars.compile(emailFile);
   // async transporter
   transporter.sendMail({
-    from: `${process.env.EMAIL_FROM}` || APP_NAME,
+    from: `${EMAIL_FROM_NAME} <${EMAIL_FROM_ADDRESS}>`,
     to: identifier,
     subject: `Your sign-in link for ${APP_NAME}`,
     html: emailTemplate({
       base_url: WEBAPP_URL,
       signin_url: url,
       email: identifier,
+      app_name: APP_NAME,
+      year: new Date().getFullYear(),
     }),
   });
 };

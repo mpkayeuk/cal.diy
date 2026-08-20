@@ -9,6 +9,7 @@ import type { TimeFormat } from "@calcom/lib/timeFormat";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
 import type { RecurringEvent } from "@calcom/types/Calendar";
 
+import { EMAIL_MUTED } from "../lib/emailBrand";
 import { Info } from "./Info";
 
 export function getRecurringWhen({
@@ -64,7 +65,7 @@ export function WhenInfo(props: {
           <span data-testid="when">
             {recurringEvent?.count ? `${t("starting")} ` : ""}
             {getRecipientStart(`dddd, LL | ${timeFormat}`)} - {getRecipientEnd(timeFormat)}{" "}
-            <span style={{ color: "#4B5563" }}>({timeZone})</span>
+            <span style={{ color: EMAIL_MUTED }}>({timeZone})</span>
           </span>
         }
         withSpacer

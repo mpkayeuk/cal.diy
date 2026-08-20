@@ -1,3 +1,4 @@
+import { EMAIL_CARD_BG, EMAIL_LINE } from "../lib/emailBrand";
 import RawHtml from "./RawHtml";
 import Row from "./Row";
 
@@ -16,12 +17,12 @@ const EmailCommonDivider = ({
   return (
     <>
       <RawHtml
-        html={`<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" bgcolor="#FFFFFF" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->`}
+        html={`<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" bgcolor="${EMAIL_CARD_BG}" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->`}
       />
       <div
         style={{
-          background: "#FFFFFF",
-          backgroundColor: "#FFFFFF",
+          background: EMAIL_CARD_BG,
+          backgroundColor: EMAIL_CARD_BG,
           margin: "0px auto",
           maxWidth: 600,
         }}>
@@ -29,14 +30,14 @@ const EmailCommonDivider = ({
           align="center"
           border="0"
           style={{
-            background: "#FFFFFF",
-            backgroundColor: "#FFFFFF",
+            background: EMAIL_CARD_BG,
+            backgroundColor: EMAIL_CARD_BG,
             width: "100%",
           }}>
           <td
             style={{
-              borderLeft: "1px solid #E1E1E1",
-              borderRight: "1px solid #E1E1E1",
+              borderLeft: `1px solid ${EMAIL_LINE}`,
+              borderRight: `1px solid ${EMAIL_LINE}`,
               direction: "ltr",
               fontSize: 0,
               padding: "15px 0px 0 0px",

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 
 import { BASE_URL } from "@calcom/lib/constants";
 
+import { EMAIL_LINE } from "../lib/emailBrand";
 import EmailCommonDivider from "./EmailCommonDivider";
 import Row from "./Row";
 
@@ -26,7 +27,7 @@ const EmailSchedulingBodyHeader = (props: { headerType: BodyHeadType; headStyles
   return (
     <>
       <EmailCommonDivider
-        headStyles={{ padding: "30px 30px 0 30px", borderTop: "1px solid #E1E1E1", ...props.headStyles }}>
+        headStyles={{ padding: "30px 30px 0 30px", borderTop: `1px solid ${EMAIL_LINE}`, ...props.headStyles }}>
         <td
           align="center"
           style={{

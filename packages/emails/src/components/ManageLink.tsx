@@ -1,6 +1,8 @@
 import { getBookingUrl, getCancelLink, getRescheduleLink } from "@calcom/lib/CalEventParser";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
 
+import { EMAIL_FONT, EMAIL_INK } from "../lib/emailBrand";
+
 export function ManageLink(props: { calEvent: CalendarEvent; attendee: Person }) {
   // Only the original attendee can make changes to the event
   // Guests cannot
@@ -46,19 +48,20 @@ export function ManageLink(props: { calEvent: CalendarEvent; attendee: Person })
     return (
       <div
         style={{
-          fontFamily: "Roboto, Helvetica, sans-serif",
+          fontFamily: EMAIL_FONT,
           fontSize: "16px",
           fontWeight: 500,
           lineHeight: "0px",
           textAlign: "left",
-          color: "#101010",
+          color: EMAIL_INK,
         }}>
         <p
           style={{
             fontWeight: 400,
             lineHeight: "24px",
-            textAlign: "center",
+            textAlign: "left",
             width: "100%",
+            fontFamily: EMAIL_FONT,
           }}>
           {(shouldDisplayRescheduleLink || hasCancelLink) && <>{t("need_to_make_a_change")}</>}
           {shouldDisplayRescheduleLink && (
@@ -66,10 +69,11 @@ export function ManageLink(props: { calEvent: CalendarEvent; attendee: Person })
               <a
                 href={rescheduleLink}
                 style={{
-                  color: "#374151",
+                  color: EMAIL_INK,
                   marginLeft: "5px",
                   marginRight: "5px",
                   textDecoration: "underline",
+                  fontWeight: 800,
                 }}>
                 <>{t("reschedule")}</>
               </a>
@@ -81,9 +85,10 @@ export function ManageLink(props: { calEvent: CalendarEvent; attendee: Person })
               <a
                 href={cancelLink}
                 style={{
-                  color: "#374151",
+                  color: EMAIL_INK,
                   marginLeft: "5px",
                   textDecoration: "underline",
+                  fontWeight: 800,
                 }}>
                 <>{t("cancel")}</>
               </a>
@@ -103,9 +108,10 @@ export function ManageLink(props: { calEvent: CalendarEvent; attendee: Person })
               <a
                 href={bookingLink}
                 style={{
-                  color: "#374151",
+                  color: EMAIL_INK,
                   marginLeft: "5px",
                   textDecoration: "underline",
+                  fontWeight: 800,
                 }}>
                 <>{t("check_here")}</>
               </a>

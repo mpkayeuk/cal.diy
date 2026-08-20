@@ -1,5 +1,4 @@
 import { useBrandColors } from "@calcom/embed-core/embed-iframe";
-
 import { DEFAULT_DARK_BRAND_COLOR, DEFAULT_LIGHT_BRAND_COLOR } from "./constants";
 
 const BRAND_COLOR = DEFAULT_LIGHT_BRAND_COLOR;
@@ -104,9 +103,7 @@ function normalizeHexCode(hex: string | null, dark: boolean) {
   if (hex.length === 3) {
     hex = hex
       .split("")
-      .map(function (hex) {
-        return hex + hex;
-      })
+      .map((hex) => hex + hex)
       .join("");
   }
 
@@ -195,6 +192,10 @@ const useGetBrandingColours = ({
       "cal-brand-subtle": lightColourMap["200"],
       "cal-brand-text": getWCAGContrastColor(lightColourMap["500"]),
       "cal-brand-accent": getWCAGContrastColor(lightColourMap["500"]),
+      "cal-bg-brand": lightColourMap["500"],
+      "cal-bg-brand-emphasis": lightColourMap["400"],
+      "cal-bg-primary": lightColourMap["500"],
+      "cal-bg-primary-emphasis": lightColourMap["400"],
     },
     dark: {
       "cal-brand": darkColourMap["500"],
@@ -202,6 +203,10 @@ const useGetBrandingColours = ({
       "cal-brand-subtle": darkColourMap["800"],
       "cal-brand-text": getWCAGContrastColor(darkColourMap["500"]),
       "cal-brand-accent": getWCAGContrastColor(darkColourMap["500"]),
+      "cal-bg-brand": darkColourMap["500"],
+      "cal-bg-brand-emphasis": darkColourMap["600"],
+      "cal-bg-primary": darkColourMap["500"],
+      "cal-bg-primary-emphasis": darkColourMap["600"],
     },
   };
   return theme;

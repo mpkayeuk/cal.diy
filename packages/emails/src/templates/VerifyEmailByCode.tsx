@@ -4,6 +4,7 @@ import {
   SUPPORT_MAIL_ADDRESS,
 } from "@calcom/lib/constants";
 import type { EmailVerifyCode } from "../../lib/types/email-types";
+import { EMAIL_BRAND } from "../lib/emailBrand";
 import { BaseEmailHtml } from "../components";
 
 export const VerifyEmailByCode = (
@@ -49,7 +50,7 @@ export const VerifyEmailByCode = (
               {props.language("happy_scheduling")}, <br />
               <a
                 href={`mailto:${SUPPORT_MAIL_ADDRESS}`}
-                style={{ color: "#3E3E3E" }}
+                style={{ color: EMAIL_BRAND }}
                 target="_blank"
                 rel="noreferrer"
               >

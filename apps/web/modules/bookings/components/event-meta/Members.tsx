@@ -2,7 +2,7 @@ import { useIsPlatform } from "@calcom/atoms/hooks/useIsPlatform";
 import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
 import { useBookerStore } from "@calcom/features/bookings/Booker/store";
 import type { BookerEvent } from "@calcom/features/bookings/types";
-import { WEBAPP_URL } from "@calcom/lib/constants";
+import { APP_NAME, LOGO, LOGO_DARK, POWERED_BY_URL, WEBAPP_URL } from "@calcom/lib/constants";
 import { getUserAvatarUrl } from "@calcom/lib/getAvatarUrl";
 import { SchedulingType } from "@calcom/prisma/enums";
 import { AvatarGroup } from "@calcom/ui/components/avatar";
@@ -44,11 +44,16 @@ export const EventMembers = ({
     (profile.name !== users[0].name && schedulingType === SchedulingType.COLLECTIVE);
 
   if (schedulingType === SchedulingType.ROUND_ROBIN && roundRobinHideOrgAndTeam) {
-    return <div className="h-6" />;
+    return <BookerBrandLogo hidden={isPlatform} />;
   }
 
   if (schedulingType === SchedulingType.ROUND_ROBIN && hideOrgTeamAvatar) {
-    return <p className="pt-6 font-semibold text-sm text-subtle">{profile.name}</p>;
+    return (
+      <div className="flex flex-col items-start gap-3 pt-2">
+        <BookerBrandLogo hidden={isPlatform} />
+        <p className="min-w-0 truncate font-semibold text-sm text-subtle">{profile.name}</p>
+      </div>
+    );
   }
 
   const orgOrTeamAvatarItem =
@@ -69,33 +74,48 @@ export const EventMembers = ({
           },
         ];
 
-  return (
-    <>
-      <AvatarGroup
-        size="sm"
-        className="border-muted"
-        items={[
-          ...orgOrTeamAvatarItem,
-          ...shownUsers.map((user) => ({
-            href:
-              isPlatform || isPrivateLink || entity.hideProfileLink
-                ? null
-                : `${WEBAPP_URL}/${user.profile?.username}?redirect=false`,
-            alt: user.name || "",
-            title: user.name || "",
-            image: getUserAvatarUrl(user),
-          })),
-        ]}
-      />
+  const hostName = showOnlyProfileName
+    ? profile.name
+    : shownUsers
+        .map((user) => user.name)
+        .filter((name) => name)
+        .join(", ");
 
-      <p className="mt-2 font-semibold text-sm text-subtle">
-        {showOnlyProfileName
-          ? profile.name
-          : shownUsers
-              .map((user) => user.name)
-              .filter((name) => name)
-              .join(", ")}
-      </p>
-    </>
+  return (
+    <div className="flex flex-col items-start gap-3">
+      <BookerBrandLogo hidden={isPlatform} />
+      <div className="flex min-w-0 items-center gap-2">
+        <AvatarGroup
+          size="sm"
+          className="border-muted"
+          items={[
+            ...orgOrTeamAvatarItem,
+            ...shownUsers.map((user) => ({
+              href:
+                isPlatform || isPrivateLink || entity.hideProfileLink
+                  ? null
+                  : `${WEBAPP_URL}/${user.profile?.username}?redirect=false`,
+              alt: user.name || "",
+              title: user.name || "",
+              image: getUserAvatarUrl(user),
+            })),
+          ]}
+        />
+        <p className="min-w-0 truncate font-semibold text-sm text-subtle">{hostName}</p>
+      </div>
+    </div>
   );
 };
+
+function BookerBrandLogo({ hidden }: { hidden: boolean }) {
+  if (hidden) {
+    return null;
+  }
+
+  return (
+    <a href={POWERED_BY_URL} target="_blank" rel="noreferrer" className="shrink-0">
+      <img src={LOGO} alt={APP_NAME} className="h-12 w-auto dark:hidden" />
+      <img src={LOGO_DARK} alt="" className="hidden h-12 w-auto dark:inline" />
+    </a>
+  );
+}

@@ -583,15 +583,8 @@ export const updateHandler = async ({ ctx, input }: UpdateOptions) => {
     };
   }
 
-  if (input.metadata?.disableStandardEmails?.all) {
-    if (!eventType?.team?.parentId) {
-      input.metadata.disableStandardEmails.all.host = false;
-      input.metadata.disableStandardEmails.all.attendee = false;
-    }
-  }
-
   if (input.metadata?.disableStandardEmails?.confirmation) {
-    // Workflows feature removed - always disallow disabling standard emails
+    // Workflows feature removed - confirmation-only disable is unused; use disableStandardEmails.all
     input.metadata.disableStandardEmails.confirmation.host = false;
     input.metadata.disableStandardEmails.confirmation.attendee = false;
   }

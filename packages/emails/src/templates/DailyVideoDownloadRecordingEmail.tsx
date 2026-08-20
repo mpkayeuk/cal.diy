@@ -1,8 +1,7 @@
+import { APP_NAME, COMPANY_NAME, POWERED_BY_URL } from "@calcom/lib/constants";
 import type { TFunction } from "i18next";
-
-import { WEBAPP_URL, APP_NAME, COMPANY_NAME } from "@calcom/lib/constants";
-
-import { V2BaseEmailHtml, CallToAction } from "../components";
+import { EMAIL_BRAND, EMAIL_CALLOUT_BG, EMAIL_INK } from "../lib/emailBrand";
+import { CallToAction, V2BaseEmailHtml } from "../components";
 
 interface DailyVideoDownloadRecordingEmailProps {
   language: TFunction;
@@ -15,39 +14,19 @@ interface DailyVideoDownloadRecordingEmailProps {
 export const DailyVideoDownloadRecordingEmail = (
   props: DailyVideoDownloadRecordingEmailProps & Partial<React.ComponentProps<typeof V2BaseEmailHtml>>
 ) => {
-  const image = `${WEBAPP_URL}/emails/logo.png`;
   return (
     <V2BaseEmailHtml
       subject={props.language("download_your_recording", {
         title: props.title,
         date: props.date,
       })}>
-      <div style={{ width: "89px", marginBottom: "35px" }}>
-        <a href={WEBAPP_URL} target="_blank" rel="noreferrer">
-          <img
-            height="19"
-            src={image}
-            style={{
-              border: "0",
-              display: "block",
-              outline: "none",
-              textDecoration: "none",
-              height: "19px",
-              width: "100%",
-              fontSize: "13px",
-            }}
-            width="89"
-            alt=""
-          />
-        </a>
-      </div>
       <p
         style={{
           fontSize: "32px",
           fontWeight: "600",
           lineHeight: "38.5px",
           marginBottom: "40px",
-          color: "black",
+          color: EMAIL_INK,
         }}>
         <>{props.language("download_your_recording")}</>
       </p>
@@ -60,7 +39,7 @@ export const DailyVideoDownloadRecordingEmail = (
 
       <div
         style={{
-          backgroundColor: "#F3F4F6",
+          backgroundColor: EMAIL_CALLOUT_BG,
           padding: "32px",
           marginBottom: "40px",
         }}>
@@ -70,7 +49,7 @@ export const DailyVideoDownloadRecordingEmail = (
             lineHeight: "20px",
             fontWeight: 600,
             marginBottom: "8px",
-            color: "black",
+            color: EMAIL_INK,
           }}>
           <>{props.title}</>
         </p>
@@ -80,7 +59,7 @@ export const DailyVideoDownloadRecordingEmail = (
             lineHeight: "24px",
             marginBottom: "24px",
             marginTop: "0px",
-            color: "black",
+            color: EMAIL_INK,
           }}>
           {props.date}
         </p>
@@ -89,7 +68,7 @@ export const DailyVideoDownloadRecordingEmail = (
 
       <p style={{ fontWeight: 500, lineHeight: "20px", marginTop: "8px" }}>
         {props.language("link_valid_for_12_hrs_description")}{" "}
-        <a href="https://cal.com/docs/enterprise-features/teams/cal-video-recordings">
+        <a href={POWERED_BY_URL} style={{ color: EMAIL_BRAND }}>
           {props.language("here")}
         </a>
       </p>

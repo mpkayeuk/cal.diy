@@ -3,6 +3,7 @@ import type { TFunction } from "i18next";
 import ServerTrans from "@calcom/lib/components/ServerTrans";
 import { APP_NAME, WEBAPP_URL } from "@calcom/lib/constants";
 
+import { EMAIL_BRAND, EMAIL_BRAND_TEXT } from "../lib/emailBrand";
 import { BaseEmailHtml, CallToAction } from "../components";
 
 type AdminOrganizationNotification = {
@@ -22,25 +23,25 @@ const dnsTable = (type: string, name: string, value: string, t: TFunction) => (
       marginTop: "10px",
       borderRadius: "6px",
       borderCollapse: "separate",
-      border: "solid black 1px",
+      border: `solid ${EMAIL_BRAND} 1px`,
     }}
     width="100%">
     <tbody>
       <thead>
         <tr
           style={{
-            backgroundColor: "black",
-            color: "white",
+            backgroundColor: EMAIL_BRAND,
+            color: EMAIL_BRAND_TEXT,
             fontSize: "14px",
             lineHeight: "24px",
           }}>
           <td
             align="center"
             width="33%"
-            style={{ borderTopLeftRadius: "5px", borderRight: "1px solid white" }}>
+            style={{ borderTopLeftRadius: "5px", borderRight: `1px solid ${EMAIL_BRAND_TEXT}` }}>
             {t("type")}
           </td>
-          <td align="center" width="33%" style={{ borderRight: "1px solid white" }}>
+          <td align="center" width="33%" style={{ borderRight: `1px solid ${EMAIL_BRAND_TEXT}` }}>
             {t("name")}
           </td>
           <td align="center" style={{ borderTopRightRadius: "5px" }}>
@@ -49,10 +50,10 @@ const dnsTable = (type: string, name: string, value: string, t: TFunction) => (
         </tr>
       </thead>
       <tr style={{ lineHeight: "24px" }}>
-        <td align="center" style={{ borderBottomLeftRadius: "5px", borderRight: "1px solid black" }}>
+        <td align="center" style={{ borderBottomLeftRadius: "5px", borderRight: `1px solid ${EMAIL_BRAND}` }}>
           {type}
         </td>
-        <td align="center" style={{ borderRight: "1px solid black" }}>
+        <td align="center" style={{ borderRight: `1px solid ${EMAIL_BRAND}` }}>
           {name}
         </td>
         <td align="center" style={{ borderBottomRightRadius: "5px" }}>

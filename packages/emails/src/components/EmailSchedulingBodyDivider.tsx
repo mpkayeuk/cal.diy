@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 
+import { EMAIL_LINE } from "../lib/emailBrand";
 import EmailCommonDivider from "./EmailCommonDivider";
 import RawHtml from "./RawHtml";
 
@@ -15,14 +16,14 @@ export const EmailSchedulingBodyDivider = (props: { headStyles?: CSSProperties }
       }}>
       <p
         style={{
-          borderTop: "solid 1px #E1E1E1",
+          borderTop: `solid 1px ${EMAIL_LINE}`,
           fontSize: 1,
           margin: "0px auto",
           width: "100%",
         }}
       />
       <RawHtml
-        html={`<!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #E1E1E1;font-size:1px;margin:0px auto;width:548px;" role="presentation" width="548px" ><tr><td style="height:0;line-height:0;"> &nbsp;</td></tr></table><![endif]-->`}
+        html={`<!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px ${EMAIL_LINE};font-size:1px;margin:0px auto;width:548px;" role="presentation" width="548px" ><tr><td style="height:0;line-height:0;"> &nbsp;</td></tr></table><![endif]-->`}
       />
     </td>
   </EmailCommonDivider>

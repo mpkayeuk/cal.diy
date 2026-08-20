@@ -1,4 +1,5 @@
 import type { IBookingRedirect } from "../../lib/types/booking-redirect-types";
+import { EMAIL_INK } from "../lib/emailBrand";
 import { BaseEmailHtml } from "../components";
 
 export const BookingRedirectEmailNotification = (
@@ -22,7 +23,7 @@ export const BookingRedirectEmailNotification = (
       )}>
       <p
         style={{
-          color: "black",
+          color: EMAIL_INK,
           fontSize: "16px",
           lineHeight: "24px",
           fontWeight: "400",

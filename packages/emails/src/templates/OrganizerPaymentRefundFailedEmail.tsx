@@ -1,3 +1,4 @@
+import { EMAIL_MUTED } from "../lib/emailBrand";
 import { BaseEmailHtml } from "../components";
 import type { OrganizerScheduledEmail } from "./OrganizerScheduledEmail";
 
@@ -43,7 +44,7 @@ function RefundInformation(props: React.ComponentProps<typeof OrganizerPaymentRe
                 fontWeight: 400,
                 lineHeight: "24px",
                 textAlign: "center",
-                color: "#494949",
+                color: EMAIL_MUTED,
               }}>
               {t("error_message", { errorMessage: paymentInfo.reason }).toString()}
             </div>
@@ -60,7 +61,7 @@ function RefundInformation(props: React.ComponentProps<typeof OrganizerPaymentRe
                 fontWeight: 400,
                 lineHeight: "24px",
                 textAlign: "center",
-                color: "#494949",
+                color: EMAIL_MUTED,
               }}>
               Payment {paymentInfo.id}
             </div>

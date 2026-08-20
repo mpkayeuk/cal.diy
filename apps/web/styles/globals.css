@@ -422,3 +422,89 @@ html[dir="rtl"] .react-tel-input .flag-dropdown {
   left: auto !important;
   right: 0 !important;
 }
+
+/* Public booking pages: RZLVR cream/paper chrome. Brand colour still comes from Appearance. */
+.booker-page {
+  --cal-bg: #fffdf7;
+  --cal-bg-muted: #f3efe5;
+  --cal-bg-subtle: #efebe0;
+  --cal-bg-emphasis: #e4efc0;
+  --cal-text: #112f2c;
+  --cal-text-emphasis: #112f2c;
+  --cal-text-subtle: #65746f;
+  --cal-text-muted: #65746f;
+  --cal-border: #d4ddd9;
+  --cal-border-subtle: #e4e0d4;
+  --cal-border-emphasis: #c5d0cc;
+  --cal-available: #d9ef6f;
+  --background: #f3efe5;
+  background-color: var(--cal-bg-muted);
+  color: var(--cal-text);
+}
+
+.dark .booker-page {
+  --cal-bg: #112f2c;
+  --cal-bg-muted: #0b2926;
+  --cal-bg-subtle: #123c37;
+  --cal-bg-emphasis: #1a524b;
+  --cal-text: #f3efe5;
+  --cal-text-emphasis: #fffdf7;
+  --cal-text-subtle: #a8c4c0;
+  --cal-text-muted: #a8c4c0;
+  --cal-border: #1a524b;
+  --cal-border-subtle: #1a524b;
+  --cal-border-emphasis: #245851;
+  --background: #0b2926;
+}
+
+.booker-page [data-testid="booker-container"],
+.booker-page [data-testid="booking-success-card"] {
+  border-radius: 1.25rem;
+  box-shadow: none !important;
+  filter: none;
+}
+
+.booker-page [data-testid="booking-success-card"].booking-success-branded {
+  border-radius: 16px;
+}
+
+/* Confirmation card matches the branded email, without the RZLVR pill. */
+.booking-success-branded {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+  overflow: hidden;
+  background: #fffdf7;
+  color: #112f2c;
+  text-align: left;
+  border: 0;
+  border-radius: 16px;
+  box-shadow: none;
+  color-scheme: light;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.booking-success-branded__header {
+  padding: 26px 32px;
+  background: #123c37;
+  border-bottom: 5px solid #ff6846;
+}
+
+.booking-success-branded__logo {
+  display: block;
+  width: 185px;
+  max-width: 100%;
+  height: auto;
+}
+
+.booking-success-branded__body {
+  padding: 34px 32px 36px;
+}
+
+.booking-success-branded #modal-headline {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+}

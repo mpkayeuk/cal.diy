@@ -1,5 +1,7 @@
 import ServerTrans from "@calcom/lib/components/ServerTrans";
-import { APP_NAME, WEBAPP_URL } from "@calcom/lib/constants";
+import { APP_NAME, SUPPORT_MAIL_ADDRESS, WEBAPP_URL } from "@calcom/lib/constants";
+
+import { EMAIL_BRAND, EMAIL_LINE } from "../lib/emailBrand";
 
 import type { OrganizationCreation } from "../../lib/types/email-types";
 import { V2BaseEmailHtml } from "../components";
@@ -56,17 +58,26 @@ export const OrganizationCreationEmail = (
             i18nKey="email|existing_user_added_link_changed"
             components={{
               a0: (
-                <a className="cursor-pointer text-blue-500 underline" href={prevLink ?? ""}>
+                <a
+                  className="cursor-pointer underline"
+                  href={prevLink ?? ""}
+                  style={{ color: EMAIL_BRAND }}>
                   {prevLinkWithoutProtocol}
                 </a>
               ),
               a1: (
-                <a className="cursor-pointer text-blue-500 underline" href={newLink ?? ""}>
+                <a
+                  className="cursor-pointer underline"
+                  href={newLink ?? ""}
+                  style={{ color: EMAIL_BRAND }}>
                   {newLinkWithoutProtocol}
                 </a>
               ),
               a2: (
-                <a className="cursor-pointer text-blue-500 underline" href={`${newLink}?orgRedirection=true`}>
+                <a
+                  className="cursor-pointer underline"
+                  href={`${newLink}?orgRedirection=true`}
+                  style={{ color: EMAIL_BRAND }}>
                   {newLinkWithoutProtocol}
                 </a>
               ),
@@ -93,11 +104,11 @@ export const OrganizationCreationEmail = (
         </p>
       </div>
 
-      <div style={{ borderTop: "1px solid #E1E1E1", marginTop: "32px", paddingTop: "32px" }}>
+      <div style={{ borderTop: `1px solid ${EMAIL_LINE}`, marginTop: "32px", paddingTop: "32px" }}>
         <p style={{ fontWeight: 400, margin: 0 }}>
           <>
             {props.language("have_any_questions")}{" "}
-            <a href="mailto:support@cal.com" style={{ color: "#3E3E3E" }} target="_blank" rel="noreferrer">
+            <a href={`mailto:${SUPPORT_MAIL_ADDRESS}`} style={{ color: EMAIL_BRAND }} target="_blank" rel="noreferrer">
               <>{props.language("contact")}</>
             </a>{" "}
             {props.language("our_support_team")}

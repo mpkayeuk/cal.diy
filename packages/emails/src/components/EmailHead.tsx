@@ -21,6 +21,7 @@ const EmailHead = ({ title = "" }) => {
             padding: 0;
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
+            font-family: Arial, Helvetica, sans-serif;
           }
 
           table,
@@ -48,10 +49,6 @@ const EmailHead = ({ title = "" }) => {
       <RawHtml html="<!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->" />
       <RawHtml
         html={`<!--[if lte mso 11]><style type="text/css">.mj-outlook-group-fix { width:100% !important; }</style><![endif]-->`}
-      />
-      <RawHtml
-        html={`<!--[if !mso]><!--><link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet" type="text/css"/>
-      <style type="text/css">@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700);</style><!--<![endif]-->`}
       />
       <style type="text/css">
         {`

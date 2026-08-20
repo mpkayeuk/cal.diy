@@ -1,5 +1,4 @@
 import type React from "react";
-
 import { CAL_URL, LOGO, LOGO_DARK, WEBAPP_URL } from "./constants";
 
 // Ensures tw prop is typed.
@@ -51,22 +50,22 @@ const makeAbsoluteUrl = (url: string) => (/^https?:\/\//.test(url) ? url : `${CA
 
 const OG_ASSETS = {
   meeting: {
-    id: "meeting-og-image-v1", // Bump version when changing Meeting component structure/styling
-    logo: LOGO,
+    id: "meeting-og-image-v2", // Bump version when changing Meeting component structure/styling
+    logo: LOGO_DARK,
     logoWidth: "350",
     avatarSize: "160",
     variant: "dark" as const,
   },
   app: {
-    id: "app-og-image-v1", // Bump version when changing App component structure/styling
+    id: "app-og-image-v2", // Bump version when changing App component structure/styling
     logo: LOGO,
     logoWidth: "150",
     iconSize: "172",
     variant: "light" as const,
   },
   generic: {
-    id: "generic-og-image-v1", // Bump version when changing Generic component structure/styling
-    logo: LOGO_DARK,
+    id: "generic-og-image-v2", // Bump version when changing Generic component structure/styling
+    logo: LOGO,
     logoWidth: "350",
     variant: "light" as const,
   },

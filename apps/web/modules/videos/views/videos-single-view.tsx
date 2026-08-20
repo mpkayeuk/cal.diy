@@ -2,10 +2,11 @@
 
 import dayjs from "@calcom/dayjs";
 import {
+  APP_NAME,
+  LOGO_DARK,
   RECORDING_DEFAULT_ICON,
   TRANSCRIPTION_STOPPED_ICON,
   WEBAPP_URL,
-  WEBSITE_URL,
 } from "@calcom/lib/constants";
 import { formatToLocalizedDate, formatToLocalizedTime } from "@calcom/lib/dayjs";
 import { emailRegex } from "@calcom/lib/emailSchema";
@@ -192,8 +193,8 @@ export default function JoinCall(props: PageProps) {
         ) : (
           <img
             className="fixed z-10 hidden h-5 sm:inline-block"
-            src={`${WEBSITE_URL}/cal-logo-word-dark.svg`}
-            alt="Logo"
+            src={`${WEBAPP_URL}${LOGO_DARK}`}
+            alt={APP_NAME}
             style={{
               top: 47,
               left: 20,

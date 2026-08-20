@@ -2,6 +2,7 @@ import type { TFunction } from "i18next";
 
 import { APP_NAME, SUPPORT_MAIL_ADDRESS, COMPANY_NAME } from "@calcom/lib/constants";
 
+import { EMAIL_BRAND, EMAIL_BRAND_TEXT } from "../lib/emailBrand";
 import { BaseEmailHtml } from "../components";
 
 export type OrganizationEmailVerify = {
@@ -36,11 +37,11 @@ export const OrganisationAccountVerifyEmail = (
         <div
           style={{
             borderRadius: "6px",
-            backgroundColor: "#101010",
+            backgroundColor: EMAIL_BRAND,
             padding: "6px 2px 6px 8px",
             flexShrink: 1,
           }}>
-          <b style={{ fontWeight: 400, lineHeight: "24px", color: "white", letterSpacing: "6px" }}>
+          <b style={{ fontWeight: 400, lineHeight: "24px", color: EMAIL_BRAND_TEXT, letterSpacing: "6px" }}>
             {props.code}
           </b>
         </div>
@@ -52,7 +53,7 @@ export const OrganisationAccountVerifyEmail = (
             {props.language("happy_scheduling")} <br />
             <a
               href={`mailto:${SUPPORT_MAIL_ADDRESS}`}
-              style={{ color: "#3E3E3E" }}
+              style={{ color: EMAIL_BRAND }}
               target="_blank"
               rel="noreferrer">
               <>{props.language("the_calcom_team", { companyName: COMPANY_NAME })}</>

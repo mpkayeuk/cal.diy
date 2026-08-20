@@ -4,6 +4,7 @@ import { guessEventLocationType } from "@calcom/app-store/locations";
 import { getVideoCallUrlFromCalEvent } from "@calcom/lib/CalEventParser";
 import type { CalendarEvent } from "@calcom/types/Calendar";
 
+import { EMAIL_INK, EMAIL_MUTED } from "../lib/emailBrand";
 import { Info } from "./Info";
 
 export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
@@ -35,17 +36,17 @@ export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
             href={meetingUrl}
             target="_blank"
             title={t("meeting_url")}
-            style={{ color: "#101010" }}
+            style={{ color: EMAIL_INK, textDecoration: "underline", fontWeight: 800 }}
             rel="noreferrer">
             {providerName || "Link"}
           </a>
         }
         extraInfo={
           meetingUrl && (
-            <div style={{ color: "#494949", fontWeight: 400, lineHeight: "24px" }}>
+            <div style={{ color: EMAIL_MUTED, fontWeight: 400, lineHeight: "24px" }}>
               <>
                 {t("meeting_url")}:{" "}
-                <a href={meetingUrl} title={t("meeting_url")} style={{ color: "#3E3E3E" }}>
+                <a href={meetingUrl} title={t("meeting_url")} style={{ color: EMAIL_INK, textDecoration: "underline" }}>
                   {meetingUrl}
                 </a>
               </>
@@ -62,7 +63,7 @@ export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
         label={t("where")}
         withSpacer
         description={
-          <a href={`tel:${location}`} title="Phone" style={{ color: "#3E3E3E" }}>
+          <a href={`tel:${location}`} title="Phone" style={{ color: EMAIL_INK, textDecoration: "underline", fontWeight: 800 }}>
             {location}
           </a>
         }
@@ -77,7 +78,7 @@ export function LocationInfo(props: { calEvent: CalendarEvent; t: TFunction }) {
       description={providerName || location}
       extraInfo={
         (providerName === "Zoom" || providerName === "Google") && props.calEvent.requiresConfirmation ? (
-          <p style={{ color: "#494949", fontWeight: 400, lineHeight: "24px" }}>
+          <p style={{ color: EMAIL_MUTED, fontWeight: 400, lineHeight: "24px" }}>
             <>{t("meeting_url_provided_after_confirmed")}</>
           </p>
         ) : null

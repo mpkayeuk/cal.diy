@@ -3,6 +3,7 @@ import type { TFunction } from "i18next";
 import ServerTrans from "@calcom/lib/components/ServerTrans";
 import { WEBAPP_URL } from "@calcom/lib/constants";
 
+import { EMAIL_LINE } from "../lib/emailBrand";
 import { BaseEmailHtml, CallToAction } from "../components";
 
 export const SlugReplacementEmail = (
@@ -48,7 +49,7 @@ export const SlugReplacementEmail = (
         </table>
         <p
           style={{
-            borderTop: "solid 1px #E1E1E1",
+            borderTop: `solid 1px ${EMAIL_LINE}`,
             fontSize: 1,
             margin: "35px auto",
             width: "100%",

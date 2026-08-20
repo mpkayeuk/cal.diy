@@ -1,3 +1,4 @@
+import { EMAIL_CARD_BG, EMAIL_CTA_BG, EMAIL_CTA_TEXT, EMAIL_FONT, EMAIL_INK } from "../lib/emailBrand";
 import { CallToActionIcon } from "./CallToActionIcon";
 
 export const CallToAction = (props: {
@@ -8,79 +9,55 @@ export const CallToAction = (props: {
   endIconName?: string;
 }) => {
   const { label, href, secondary, startIconName, endIconName } = props;
-
-  const calculatePadding = () => {
-    const paddingTop = "0.625rem";
-    const paddingBottom = "0.625rem";
-    let paddingLeft = "1rem";
-    let paddingRight = "1rem";
-
-    if (startIconName) {
-      paddingLeft = "0.875rem";
-    } else if (endIconName) {
-      paddingRight = "0.875rem";
-    }
-
-    return `${paddingTop} ${paddingRight} ${paddingBottom} ${paddingLeft}`;
-  };
-
   const El = href ? "a" : "button";
-  const restProps = href ? { href, target: "_blank" } : { type: "submit" };
+  const restProps = href ? { href, target: "_blank" as const } : { type: "submit" as const };
+  const background = secondary ? EMAIL_CARD_BG : EMAIL_CTA_BG;
 
   return (
-    <p
-      style={{
-        display: "inline-block",
-        background: secondary ? "#FFFFFF" : "#292929",
-        border: secondary ? "1px solid #d1d5db" : "",
-        color: "#ffffff",
-        fontFamily: "Roboto, Helvetica, sans-serif",
-        fontSize: "0.875rem",
-        fontWeight: 500,
-        lineHeight: "1rem",
-        margin: 0,
-        textDecoration: "none",
-        textTransform: "none",
-        padding: calculatePadding(),
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        msoPaddingAlt: "0px",
-        borderRadius: "6px",
-        boxSizing: "border-box",
-        height: "2.25rem",
-      }}>
-      {/* @ts-expect-error shared props between href and button */}
-      <El
-        style={{
-          color: secondary ? "#292929" : "#FFFFFF",
-          textDecoration: "none",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: "auto",
-          appearance: "none",
-          background: "transparent",
-          border: "none",
-          padding: 0,
-          fontSize: "inherit",
-          fontWeight: 500,
-          lineHeight: "1rem",
-          cursor: "pointer",
-        }}
-        {...restProps}
-        rel="noreferrer">
-        {startIconName && (
-          <CallToActionIcon
+    <table role="presentation" cellSpacing={0} cellPadding={0} border={0}>
+      <tbody>
+        <tr>
+          <td
             style={{
-              marginRight: "0.5rem",
-              marginLeft: 0,
-            }}
-            iconName={startIconName}
-          />
-        )}
-        {label}
-        {endIconName && <CallToActionIcon iconName={endIconName} />}
-      </El>
-    </p>
+              background,
+              border: `2px solid ${EMAIL_INK}`,
+              borderRadius: 8,
+              boxShadow: `3px 3px 0 ${EMAIL_INK}`,
+            }}>
+            {/* @ts-expect-error shared props between href and button */}
+            <El
+              style={{
+                display: "inline-block",
+                padding: "13px 20px",
+                color: EMAIL_CTA_TEXT,
+                fontSize: 15,
+                fontWeight: 900,
+                lineHeight: 1.2,
+                textDecoration: "none",
+                fontFamily: EMAIL_FONT,
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+              }}
+              {...restProps}
+              {...(href ? { rel: "noreferrer" } : {})}>
+              {startIconName ? (
+                <CallToActionIcon
+                  style={{ marginRight: "0.5rem", marginLeft: 0, verticalAlign: "middle" }}
+                  iconName={startIconName}
+                />
+              ) : null}
+              {label}
+              {endIconName ? (
+                <CallToActionIcon
+                  style={{ verticalAlign: "middle" }}
+                  iconName={endIconName}
+                />
+              ) : null}
+            </El>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
